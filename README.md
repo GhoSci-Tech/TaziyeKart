@@ -9,7 +9,7 @@ Cenaze evleri için beyaz etiket dijital taziye kartı. Aileye tek bir saygın l
 
 ## Durum
 
-Faz 0-3: dokümanlar, workspace iskeleti, Prisma şeması, seed, gerçek auth, panel/public/edit API'leri, zod doğrulama, plan limitleri, 15 API testi ve cenaze evi panel UI (giriş/kayıt/demo, dashboard, kart oluşturma/düzenleme, marka, taziye moderasyonu, plan). Public kart UI Faz 4'te.
+Faz 0-4: dokümanlar, workspace iskeleti, Prisma şeması, seed, gerçek auth, panel/public/edit API'leri, zod doğrulama, plan limitleri, 15 API testi, cenaze evi panel UI ve public taziye kartı (OG/WhatsApp, yol tarifi, takvim, taziye defteri, aile düzenleme). A6 QR yazdırma Faz 5'te.
 
 ## Hızlı başlangıç
 
@@ -50,7 +50,15 @@ npm run build
 npm start
 ```
 
-> Public kart rotası `/k/[slug]` **Faz 4**'te eklenecek. O zamana kadar paneldeki public link 404 döner; panel, auth ve tüm veri akışları çalışır durumdadır.
+### Public kartı deneme
+
+1. Panelde bir taziye kartı oluştur.
+2. Kart detayındaki **Public link** satırında **Aç**'a bas.
+3. Public URL: `http://localhost:3000/k/<slug>`
+4. Aile düzenleme linki: `http://localhost:3000/duzenle/<token>` (yalnızca aileyle paylaş).
+5. Public sayfada taziye mesajı bırak → panelde **Taziye Mesajları → Onayla** → public sayfayı yenile.
+
+Public sayfada yol tarifi, Google Takvim, WhatsApp paylaşımı, link kopyalama, yazdırma ve taziye defteri vardır. A6 QR baskı görünümü Faz 5'te.
 
 ## Demo hesaplar
 
@@ -88,9 +96,9 @@ api/                 Express 4 + Prisma 6 + SQLite + zod
   src/lib/           prisma, auth, errors, slug, serializers, plans, rateLimit
   src/routes/        health, auth, panel, public, edit (admin Faz 8)
 web/                 Next.js 15 App Router + Tailwind
-  src/app/           sales, auth, panel (Faz 3), admin, public card (Faz 4)
-  src/components/    UI, panel shell, card form/preview, share links
-  src/lib/           api, session, schemas, panel API, format
+  src/app/           sales, auth, panel, public card + family edit (Faz 4), admin
+  src/components/    UI, panel, public card/actions/condolence form
+  src/lib/           api, session, schemas, panel/public/family API, format
 docs/                PLAN, API, KABUL, DESIGN
 ```
 
@@ -127,7 +135,9 @@ Bu bölüm Faz 7/10'da son haline gelecek. Şimdilik kayıt:
 - Auth/panel/public/edit sözleşmeleri `docs/API.md` ile hizalandı; test DB'si her koşuda reset + seed ediliyor.
 - Faz 3 panel UI Chrome + Playwright ile uçtan uca test edildi: demo giriş, kart oluşturma, public/edit linkleri, kart düzenleme, taziye mesajı gönderme/onaylama, marka, plan ve silme.
 - QA sırasında plan sayfasındaki “Mevcut plan” metni iki yerde geçtiği için test locator'ı çakıştı; ürün değil, test düzeltildi. “Önerilen” rozet kontrastı, IBAN placeholder'ı ve toast konumu UI incelemesinde iyileştirildi.
-- Public kart rotası henüz yok; panele public link eklendiği için Faz 4'te `/k/[slug]` tamamlanana kadar bu link 404 dönecek. README'de açıkça not edildi.
+- Faz 4 public kart + OG + taziye defteri + aile düzenleme Chrome/Playwright ile uçtan uca test edildi: public kart 200, OG image 200 image/png, taziye formu → panel onayı, aile güncellemesi, aile silme ve public 404.
+- Public kart sunucu-rendered; `generateMetadata`/`opengraph-image`; `robots.ts` + `noindex`. Aile düzenleme oturum istemez, gizli token ile çalışır.
+- C2 kalıcılık ayrıca test edildi: kart oluşturuldu, dev sunucusu kapatılıp yeniden açıldı, kart public API'de duruyordu; ardından silindi.
 
 ## Lisans / not
 

@@ -15,27 +15,27 @@
 
 ## B · Çalışan ürün — sessiz testte ölçülür — 25 puan
 
-- [ ] **C1 (10 p)** En az bir akış uçtan uca çalışıyor: girdi → işlem → kalıcı sonuç, arayüzden API'ye kadar.
-  - Plan: panel → yeni kart → public sayfa → yenile → veri yerinde. Faz 3.
-- [ ] **C2 (6 p)** Veri gerçekten kalıcı; yenile, sunucuyu kapat-aç → veri yerinde.
-  - Plan: SQLite + Prisma; `npm run dev` yeniden başlatılır, kart durur. Faz 2-3.
-- [ ] **C3 (4 p)** Sıfır veriyle ilk kullanım anlamlı; boş ekran ilk adıma yönlendiriyor.
-  - Plan: panel boş durumu "İlk taziye kartını oluştur"; demo home'un kartı yok. Faz 3.
-- [ ] **C4 (5 p)** Hatalı/boş/saçma girdi ürünü çökertmiyor; anlaşılır uyarı çıkıyor.
-  - Plan: zod + alan bazlı Türkçe hata; tarih/saat/URL/IBAN/uzunluk testleri. Faz 2-3.
+- [x] **C1 (10 p)** En az bir akış uçtan uca çalışıyor: girdi → işlem → kalıcı sonuç, arayüzden API'ye kadar.
+  - Faz 4 E2E: panel → kart oluştur → public kart → taziye mesajı → onay → public güncelleme.
+- [x] **C2 (6 p)** Veri gerçekten kalıcı; yenile, sunucuyu kapat-aç → veri yerinde.
+  - Restart testi: kart oluşturuldu, dev sunucusu kapatılıp yeniden açıldı, kart aynı SQLite dosyasında durdu.
+- [x] **C3 (4 p)** Sıfır veriyle ilk kullanım anlamlı; boş ekran ilk adıma yönlendiriyor.
+  - Panel boş durumu ve demo home kartı yok; dashboard'daki CTA ilk karta yönlendiriyor.
+- [x] **C4 (5 p)** Hatalı/boş/saçma girdi ürünü çökertmiyor; anlaşılır uyarı çıkıyor.
+  - zod + alan bazlı Türkçe hata; API testlerinde boş/geçersiz tarih-saat/URL/IBAN doğrulandı; formlar alan hatalarını gösteriyor.
 
 ## C · Teknik kalite — 20 puan
 
-- [ ] **T1 (6 p)** Backend ve frontend ayrı projeler; kökte tek komutla ikisi birlikte kalkıyor.
-  - Plan: `api/` + `web/` npm workspaces; `npm run dev` → :3002 + :3000. Faz 1.
-- [ ] **T2 (4 p)** API'de girdi doğrulama ve tutarlı hata biçimi var; arayüz hatayı kullanıcıya çeviriyor.
-  - Plan: zod, `{ error: { code, message, fields? } }`, panel formunda alan hataları. Faz 2-3.
-- [ ] **T3 (4 p)** README'de teknoloji seçimleri gerekçeli.
-  - Plan: Next.js (OG/WhatsApp), Express 4 (bilinen), Prisma 6 + SQLite (tek dosya), Tailwind + shadcn, JWT cookie, A6 browser print. Faz 7.
-- [ ] **T4 (3 p)** Sırlar koda gömülmemiş; `.env` + `.env.example` + doğru `.gitignore`.
-  - Plan: `JWT_SECRET`, `ADMIN_*`, `DEMO_*`; `.env` ignored; `.env.example` tracked. Faz 1.
-- [ ] **T5 (3 p)** Kod okunabilir bölünmüş; 800 satırlık dosya yok.
-  - Plan: `api/src/lib`, `routes`, `web/src/app`, `components`, `lib`; tek sorumluluk. Tüm fazlar.
+- [x] **T1 (6 p)** Backend ve frontend ayrı projeler; kökte tek komutla ikisi birlikte kalkıyor.
+  - `api/` + `web/` npm workspaces; `npm run dev` → :3002 + :3000; defalarca doğrulandı.
+- [x] **T2 (4 p)** API'de girdi doğrulama ve tutarlı hata biçimi var; arayüz hatayı kullanıcıya çeviriyor.
+  - zod her API sınırında; `{ error: { code, message, fields? } }`; formlar alan hatalarını gösteriyor.
+- [x] **T3 (4 p)** README'de teknoloji seçimleri gerekçeli.
+  - README'de Next.js (OG/WhatsApp), Express 4, Prisma 6 + SQLite, JWT cookie, Next rewrite, A6 print ve kuruş kararları gerekçeli.
+- [x] **T4 (3 p)** Sırlar koda gömülmemiş; `.env` + `.env.example` + doğru `.gitignore`.
+  - `JWT_SECRET`, `ADMIN_*`, `DEMO_*` `.env`'de; `.env.example` güncel; `.env`, `.env.local`, DB ve `node_modules` ignore.
+- [x] **T5 (3 p)** Kod okunabilir bölünmüş; 800 satırlık dosya yok.
+  - API `lib/routes`, web `app/components/lib`; en büyük form dosyası ~340 satır, tek sorumluluk.
 
 ## D · Pazarlama — odak noktası — 20 puan
 
@@ -57,12 +57,12 @@
 
 ## F · Süreç kanıtı — 5 puan
 
-- [ ] **K1 (2 p)** `docs/PLAN.md` (YAPMAYACAKLARIM dahil) ve `AGENTS.md` var.
-  - Faz 0 ✅ (dosyalar oluşturuldu; içerik gözden geçirilecek).
-- [ ] **K2 (1 p)** En az 5 anlamlı commit.
-  - Plan: docs, scaffold, api schema/auth, web proxy/pages, auth flow, panel, public, print, sales, admin. Faz 0-10.
-- [ ] **K3 (2 p)** README: çalıştırma komutları + "ajanı nasıl sürdüm" bölümü.
-  - Plan: Faz 7/10; gerçek müdahaleler yazılacak (B2B modeli, isim/ton, moderasyon, Next.js OG kararı).
+- [x] **K1 (2 p)** `docs/PLAN.md` (YAPMAYACAKLARIM dahil) ve `AGENTS.md` var.
+  - İkisi de Faz 0'da oluşturuldu ve fazlarla birlikte güncel tutuldu.
+- [x] **K2 (1 p)** En az 5 anlamlı commit.
+  - Faz 0-4 boyunca docs, scaffold, API, test, panel, public kart ve aile düzenleme commit'leri; 9+ anlamlı commit.
+- [x] **K3 (2 p)** README: çalıştırma komutları + "ajanı nasıl sürdüm" bölümü.
+  - README'de siteyi açma, public kart denemesi, komutlar ve gerçek ajan müdahaleleri (B2B modeli, isim, auth/plan hataları, panel/public QA) var.
 
 ## Manual silent test (Faz 7 ve sonrası)
 
