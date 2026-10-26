@@ -9,7 +9,7 @@ Cenaze evleri için beyaz etiket dijital taziye kartı. Aileye tek bir saygın l
 
 ## Durum
 
-Faz 0-4: dokümanlar, workspace iskeleti, Prisma şeması, seed, gerçek auth, panel/public/edit API'leri, zod doğrulama, plan limitleri, 15 API testi, cenaze evi panel UI ve public taziye kartı (OG/WhatsApp, yol tarifi, takvim, taziye defteri, aile düzenleme). A6 QR yazdırma Faz 5'te.
+Faz 0-5: dokümanlar, workspace iskeleti, Prisma şeması, seed, gerçek auth, panel/public/edit API'leri, zod doğrulama, plan limitleri, 15 API testi, cenaze evi panel UI, public taziye kartı (OG/WhatsApp, yol tarifi, takvim, taziye defteri, aile düzenleme) ve A6 QR'lı yazdırma. Satış sayfası Faz 6'da.
 
 ## Hızlı başlangıç
 
@@ -58,7 +58,7 @@ npm start
 4. Aile düzenleme linki: `http://localhost:3000/duzenle/<token>` (yalnızca aileyle paylaş).
 5. Public sayfada taziye mesajı bırak → panelde **Taziye Mesajları → Onayla** → public sayfayı yenile.
 
-Public sayfada yol tarifi, Google Takvim, WhatsApp paylaşımı, link kopyalama, yazdırma ve taziye defteri vardır. A6 QR baskı görünümü Faz 5'te.
+Public sayfada yol tarifi, Google Takvim, WhatsApp paylaşımı, link kopyalama, yazdırma ve taziye defteri vardır. A6 QR baskı hazır: public kartta **Yazdır / QR** → A6 ön/arka → **Yazdır → PDF olarak kaydet**.
 
 ## Demo hesaplar
 
@@ -96,8 +96,8 @@ api/                 Express 4 + Prisma 6 + SQLite + zod
   src/lib/           prisma, auth, errors, slug, serializers, plans, rateLimit
   src/routes/        health, auth, panel, public, edit (admin Faz 8)
 web/                 Next.js 15 App Router + Tailwind
-  src/app/           sales, auth, panel, public card + family edit (Faz 4), admin
-  src/components/    UI, panel, public card/actions/condolence form
+  src/app/           sales, auth, panel, public card + family edit + A6 print (Faz 4-5), admin
+  src/components/    UI, panel, public card/actions/condolence/print
   src/lib/           api, session, schemas, panel/public/family API, format
 docs/                PLAN, API, KABUL, DESIGN
 ```
@@ -138,6 +138,7 @@ Bu bölüm Faz 7/10'da son haline gelecek. Şimdilik kayıt:
 - Faz 4 public kart + OG + taziye defteri + aile düzenleme Chrome/Playwright ile uçtan uca test edildi: public kart 200, OG image 200 image/png, taziye formu → panel onayı, aile güncellemesi, aile silme ve public 404.
 - Public kart sunucu-rendered; `generateMetadata`/`opengraph-image`; `robots.ts` + `noindex`. Aile düzenleme oturum istemez, gizli token ile çalışır.
 - C2 kalıcılık ayrıca test edildi: kart oluşturuldu, dev sunucusu kapatılıp yeniden açıldı, kart public API'de duruyordu; ardından silindi.
+- Faz 5 A6 ön/arka yazdırma + QR Chrome/Playwright ile test edildi: yazdır sayfası 200, QR data URL üretildi, 2 A6 sheet göründü; public/panel/aile yazdırma linkleri bağlandı. QR, `NEXT_PUBLIC_SITE_URL` üzerinden public karta gider.
 
 ## Lisans / not
 

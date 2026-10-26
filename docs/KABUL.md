@@ -77,7 +77,7 @@
 9. Public sayfada taziye mesajı bırak → "onaya gönderildi" → panelde onayla → public sayfada görünür.
 10. Superadmin demo girişi → cenaze evini, kartı, mesajı gör → planı değiştir.
 11. API'yi kapat-aç → kart hâlâ duruyor.
-12. Karta "Yazdır" → A6 ön/arka ve QR görünür.
+12. Karta "Yazdır / QR" → A6 ön/arka ve QR görünür. (Faz 5 E2E doğrulandı.)
 
 ## Notlar
 
