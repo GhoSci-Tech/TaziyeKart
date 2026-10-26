@@ -10,9 +10,9 @@ import { ArrowLeft, Loader2, Save } from 'lucide-react';
 import { toast } from 'sonner';
 import { ApiError } from '@/lib/api';
 import { createCard, updateCard } from '@/lib/panel-api';
+import { updateFamilyCard } from '@/lib/family-api';
 import { cardFormSchema, type CardFormValues } from '@/lib/schemas';
-import { useSession } from '@/lib/session';
-import type { PanelCard } from '@/lib/api-types';
+import type { FamilyCard, PanelCard } from '@/lib/api-types';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -54,7 +54,26 @@ function isCardField(value: string): value is keyof CardFormValues {
   return CARD_FIELDS.has(value as keyof CardFormValues);
 }
 
-export function toCardFormValues(card: PanelCard): CardFormValues {
+type CardFormSource = Pick<
+  PanelCard,
+  | 'deceasedName'
+  | 'honorific'
+  | 'funeralPlace'
+  | 'funeralAddress'
+  | 'funeralMapUrl'
+  | 'funeralDate'
+  | 'funeralTime'
+  | 'cemeteryName'
+  | 'burialTime'
+  | 'condolenceAddress'
+  | 'condolenceHours'
+  | 'donationUrl'
+  | 'donationIban'
+  | 'note'
+  | 'published'
+>;
+
+export function toCardFormValues(card: CardFormSource): CardFormValues {
   return {
     ...emptyCardValues,
     deceasedName: card.deceasedName,
@@ -78,13 +97,24 @@ export function toCardFormValues(card: PanelCard): CardFormValues {
 type CardFormProps = {
   mode: 'create' | 'edit';
   cardId?: string;
+  editToken?: string;
   initialValues?: CardFormValues;
+  homeName?: string;
+  cancelHref?: string;
+  cancelLabel?: string;
 };
 
-export function CardForm({ mode, cardId, initialValues }: CardFormProps) {
+export function CardForm({
+  mode,
+  cardId,
+  editToken,
+  initialValues,
+  homeName,
+  cancelHref,
+  cancelLabel,
+}: CardFormProps) {
   const router = useRouter();
   const queryClient = useQueryClient();
-  const { user } = useSession();
   const [formError, setFormError] = useState<string | null>(null);
   const [errorCode, setErrorCode] = useState<'PLAN_LIMIT' | null>(null);
 
@@ -101,15 +131,27 @@ export function CardForm({ mode, cardId, initialValues }: CardFormProps) {
 
   const values = watch();
 
+  type CardMutationResult = { card: PanelCard } | { card: FamilyCard };
+
   const mutation = useMutation({
-    mutationFn: (payload: CardFormValues) =>
-      mode === 'edit' && cardId ? updateCard(cardId, payload) : createCard(payload),
+    mutationFn: async (payload: CardFormValues): Promise<CardMutationResult> => {
+      if (editToken) return updateFamilyCard(editToken, payload);
+      if (mode === 'edit' && cardId) return updateCard(cardId, payload);
+      return createCard(payload);
+    },
     onSuccess: (data) => {
-      queryClient.setQueryData(['panel', 'card', data.card.id], data);
+      if (editToken) {
+        queryClient.invalidateQueries({ queryKey: ['family', 'card', editToken] });
+        toast.success('Kart güncellendi.');
+        return;
+      }
+
+      const panelData = data as { card: PanelCard };
+      queryClient.setQueryData(['panel', 'card', panelData.card.id], panelData);
       queryClient.invalidateQueries({ queryKey: ['panel', 'cards'] });
       queryClient.invalidateQueries({ queryKey: ['panel', 'overview'] });
       toast.success(mode === 'edit' ? 'Kart güncellendi.' : 'Taziye kartı oluşturuldu.');
-      router.push(`/panel/kartlar/${data.card.id}`);
+      router.push(`/panel/kartlar/${panelData.card.id}`);
     },
     onError: (error) => {
       if (error instanceof ApiError) {
@@ -131,6 +173,9 @@ export function CardForm({ mode, cardId, initialValues }: CardFormProps) {
     setErrorCode(null);
     mutation.mutate(payload);
   });
+
+  const backHref = cancelHref ?? '/panel/kartlar';
+  const backLabel = cancelLabel ?? 'Kartlara dön';
 
   return (
     <form onSubmit={onSubmit} noValidate className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
@@ -311,9 +356,9 @@ export function CardForm({ mode, cardId, initialValues }: CardFormProps) {
         </section>
 
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <Link href="/panel/kartlar" className={cn(buttonVariants({ variant: 'outline' }))}>
+          <Link href={backHref} className={cn(buttonVariants({ variant: 'outline' }))}>
             <ArrowLeft className="h-4 w-4" />
-            Kartlara dön
+            {backLabel}
           </Link>
           <Button type="submit" disabled={mutation.isPending}>
             {mutation.isPending ? (
@@ -327,7 +372,7 @@ export function CardForm({ mode, cardId, initialValues }: CardFormProps) {
       </div>
 
       <aside className="lg:sticky lg:top-24 lg:self-start">
-        <CardPreview values={values} homeName={user?.funeralHome?.name} />
+        <CardPreview values={values} homeName={homeName} />
         <p className="mt-3 text-center text-xs text-muted">
           Canlı önizleme · Public kartın temel görünümü
         </p>

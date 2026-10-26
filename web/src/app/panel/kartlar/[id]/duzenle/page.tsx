@@ -8,11 +8,13 @@ import { fetchCard } from '@/lib/panel-api';
 import { CardForm, toCardFormValues } from '@/components/panel/card-form';
 import { PageHeader, PanelError, PanelLoading } from '@/components/panel/panel-states';
 import { buttonVariants } from '@/components/ui/button';
+import { useSession } from '@/lib/session';
 import { cn } from '@/lib/cn';
 
 export default function EditCardPage() {
   const params = useParams<{ id: string }>();
   const id = params.id;
+  const { user } = useSession();
 
   const { data, isLoading, error, refetch } = useQuery({
     queryKey: ['panel', 'card', id],
@@ -39,7 +41,12 @@ export default function EditCardPage() {
           </Link>
         }
       />
-      <CardForm mode="edit" cardId={id} initialValues={toCardFormValues(data.card)} />
+      <CardForm
+        mode="edit"
+        cardId={id}
+        initialValues={toCardFormValues(data.card)}
+        homeName={user?.funeralHome?.name ?? ''}
+      />
     </div>
   );
 }

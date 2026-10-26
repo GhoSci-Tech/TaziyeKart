@@ -39,6 +39,39 @@ export function formatDateTimeLong(iso: string): string {
   });
 }
 
+export function googleCalendarUrl({
+  title,
+  date,
+  time,
+  location,
+  details,
+}: {
+  title: string;
+  date: string;
+  time: string;
+  location?: string;
+  details?: string;
+}): string {
+  const start = new Date(`${date}T${time}:00`);
+  const end = new Date(start.getTime() + 60 * 60 * 1000);
+  const format = (value: Date) =>
+    `${value.getFullYear()}${String(value.getMonth() + 1).padStart(2, '0')}${String(
+      value.getDate(),
+    ).padStart(2, '0')}T${String(value.getHours()).padStart(2, '0')}${String(
+      value.getMinutes(),
+    ).padStart(2, '0')}00`;
+
+  const params = new URLSearchParams({
+    action: 'TEMPLATE',
+    text: title,
+    dates: `${format(start)}/${format(end)}`,
+  });
+  if (location) params.set('location', location);
+  if (details) params.set('details', details);
+
+  return `https://calendar.google.com/calendar/render?${params.toString()}`;
+}
+
 export function planLimitLabel(limit: number | null): string {
   return limit === null ? 'Sınırsız' : `${limit} kart`;
 }

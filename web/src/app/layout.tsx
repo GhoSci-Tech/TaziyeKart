@@ -6,6 +6,7 @@ import './globals.css';
 import { Providers } from '@/components/providers';
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'),
   title: 'TaziyeKart — Bir link, herkes zamanında',
   description:
     'Cenaze evleri için beyaz etiket dijital taziye kartı. Aileler için ücretsiz; tek linkte cenaze namazı, defin, taziye adresi, yol tarifi ve QR.',

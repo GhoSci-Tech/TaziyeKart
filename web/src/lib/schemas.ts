@@ -69,7 +69,18 @@ export const cardFormSchema = z.object({
   published: z.boolean(),
 });
 
+export const condolenceFormSchema = z.object({
+  name: z.string().trim().min(1, 'Adınız gerekli.').max(80, 'Ad çok uzun.'),
+  message: z
+    .string()
+    .trim()
+    .min(1, 'Mesaj gerekli.')
+    .max(500, 'Mesaj en fazla 500 karakter olabilir.'),
+  website: z.string().max(200).optional(),
+});
+
 export type LoginValues = z.infer<typeof loginSchema>;
 export type RegisterValues = z.infer<typeof registerSchema>;
 export type BrandValues = z.infer<typeof brandSchema>;
 export type CardFormValues = z.infer<typeof cardFormSchema>;
+export type CondolenceFormValues = z.infer<typeof condolenceFormSchema>;

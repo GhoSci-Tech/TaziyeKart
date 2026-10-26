@@ -33,4 +33,18 @@ body {
   body {
     background: #ffffff;
   }
+
+  .print-hidden {
+    display: none !important;
+  }
+
+  .public-card-print > div {
+    border: 0 !important;
+    box-shadow: none !important;
+  }
+
+  @page {
+    size: A4;
+    margin: 14mm;
+  }
 }

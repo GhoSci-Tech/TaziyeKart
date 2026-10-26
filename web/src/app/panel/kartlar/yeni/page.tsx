@@ -5,9 +5,12 @@ import { ArrowLeft } from 'lucide-react';
 import { CardForm } from '@/components/panel/card-form';
 import { PageHeader } from '@/components/panel/panel-states';
 import { buttonVariants } from '@/components/ui/button';
+import { useSession } from '@/lib/session';
 import { cn } from '@/lib/cn';
 
 export default function NewCardPage() {
+  const { user } = useSession();
+
   return (
     <div className="space-y-6">
       <PageHeader
@@ -21,7 +24,7 @@ export default function NewCardPage() {
           </Link>
         }
       />
-      <CardForm mode="create" />
+      <CardForm mode="create" homeName={user?.funeralHome?.name ?? ''} />
     </div>
   );
 }

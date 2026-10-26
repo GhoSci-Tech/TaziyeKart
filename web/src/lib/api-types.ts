@@ -83,3 +83,70 @@ export type CheckoutResponse = {
   demo: boolean;
   message: string;
 };
+
+export type PublicCondolence = {
+  id: string;
+  name: string;
+  message: string;
+  createdAt: string;
+};
+
+export type PublicCard = {
+  slug: string;
+  deceasedName: string;
+  honorific: string | null;
+  funeralPlace: string;
+  funeralAddress: string | null;
+  funeralMapUrl: string | null;
+  funeralDate: string;
+  funeralTime: string;
+  cemeteryName: string | null;
+  burialTime: string | null;
+  condolenceAddress: string | null;
+  condolenceHours: string | null;
+  donationUrl: string | null;
+  donationIban: string | null;
+  note: string | null;
+  home: {
+    name: string;
+    phone: string | null;
+  };
+  condolences: PublicCondolence[];
+};
+
+export type FamilyCard = {
+  slug: string;
+  publicPath: string;
+  deceasedName: string;
+  honorific: string | null;
+  funeralPlace: string;
+  funeralAddress: string | null;
+  funeralMapUrl: string | null;
+  funeralDate: string;
+  funeralTime: string;
+  cemeteryName: string | null;
+  burialTime: string | null;
+  condolenceAddress: string | null;
+  condolenceHours: string | null;
+  donationUrl: string | null;
+  donationIban: string | null;
+  note: string | null;
+  published: boolean;
+  home: {
+    name: string;
+    phone: string | null;
+  };
+};
+
+export type FamilyCondolence = {
+  id: string;
+  name: string;
+  message: string;
+  status: CondolenceStatus;
+  createdAt: string;
+};
+
+export type FamilyEditData = {
+  card: FamilyCard;
+  condolences: FamilyCondolence[];
+};
