@@ -13,7 +13,7 @@
     "db:setup": "prisma generate && prisma db push && tsx prisma/seed.ts",
     "db:seed": "tsx prisma/seed.ts",
     "db:reset": "prisma db push --force-reset && tsx prisma/seed.ts",
-    "test": "prisma generate && cross-env DATABASE_URL=file:./test.db prisma db push --skip-generate && cross-env DATABASE_URL=file:./test.db vitest run"
+    "test": "prisma generate && cross-env DATABASE_URL=file:./test.db prisma db push --force-reset --skip-generate && cross-env DATABASE_URL=file:./test.db tsx prisma/seed.ts && cross-env DATABASE_URL=file:./test.db vitest run"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
