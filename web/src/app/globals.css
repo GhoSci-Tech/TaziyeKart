@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #f7f3ea;
+  color: #1b1b1b;
+}
+
+::selection {
+  background-color: #b08d57;
+  color: #fcfaf5;
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+.paper-grain {
+  background-image: radial-gradient(rgba(31, 61, 51, 0.035) 1px, transparent 1px);
+  background-size: 18px 18px;
+}
+
+@media print {
+  body {
+    background: #ffffff;
+  }
+}
