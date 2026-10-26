@@ -8,7 +8,7 @@ export default function RegisterPage() {
     <PageShell
       eyebrow="Cenaze evi"
       title="Kayıt"
-      description="Kayıt formu Faz 2'de; cenaze evi hesabı, marka bilgisi ve deneme planıyla birlikte gelecek."
+      description="Kayıt API'si hazır; form Faz 3'te cenaze evi hesabı, marka bilgisi ve deneme planıyla bağlanacak."
     >
       <div className="flex flex-wrap gap-3">
         <Link href="/giris" className={cn(buttonVariants({ variant: 'default' }))}>

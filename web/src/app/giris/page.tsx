@@ -8,7 +8,7 @@ export default function LoginPage() {
     <PageShell
       eyebrow="Cenaze evi"
       title="Giriş"
-      description="Gerçek giriş Faz 2'de, panel Faz 3'te bağlanacak. Şimdilik iskelet hazır."
+      description="Auth API'si hazır. Giriş formu Faz 3'te panele bağlanacak."
     >
       <div className="flex flex-wrap gap-3">
         <Link href="/kayit" className={cn(buttonVariants({ variant: 'default' }))}>
@@ -19,7 +19,7 @@ export default function LoginPage() {
         </Link>
       </div>
       <p className="mt-6 text-xs text-muted">
-        Demo giriş: demo@taziyekart.local / Demo123! (Faz 2&apos;de aktif)
+        Demo giriş: demo@taziyekart.local / Demo123! (API hazır; form Faz 3&apos;te)
       </p>
     </PageShell>
   );

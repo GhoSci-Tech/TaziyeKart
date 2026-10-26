@@ -9,7 +9,7 @@ Cenaze evleri için beyaz etiket dijital taziye kartı. Aileye tek bir saygın l
 
 ## Durum
 
-Faz 0-1: dokümanlar, workspace iskeleti, Prisma şeması, seed, auth iskeleti ve placeholder sayfalar.
+Faz 0-2: dokümanlar, workspace iskeleti, Prisma şeması, seed, gerçek auth (register/login/logout/me/demo), panel/public/edit API'leri, zod doğrulama, plan limitleri ve 15 test. Panel/public UI Faz 3-4'te.
 
 ## Hızlı başlangıç
 
@@ -34,7 +34,7 @@ npm run dev
 | Superadmin | `admin@taziyekart.local` | `Admin123!` |
 | Cenaze evi | `demo@taziyekart.local` | `Demo123!` |
 
-Gerçek üründe bu değerleri değiştir. Demo giriş butonları yalnızca `DEMO_MODE=true` iken çalışır.
+Gerçek üründe bu değerleri değiştir. Demo giriş API'si yalnızca `DEMO_MODE=true` iken çalışır; giriş formu Faz 3'te bağlanacak.
 
 ## Komutlar
 
@@ -42,7 +42,7 @@ Gerçek üründe bu değerleri değiştir. Demo giriş butonları yalnızca `DEM
 npm run dev          # api :3002 + web :3000
 npm run typecheck
 npm run build
-npm run test         # API testleri (Faz 2+)
+npm run test         # API testleri (15 test; test DB'sini sıfırlar ve seed eder)
 npm run db:generate
 npm run db:setup
 npm run db:seed
@@ -57,10 +57,10 @@ api/                 Express 4 + Prisma 6 + SQLite + zod
   prisma/seed.ts
   src/app.ts         test edilebilir Express app
   src/index.ts       :3002 listener
-  src/lib/           prisma, auth, errors, slug
-  src/routes/        health, auth (Faz 2: panel/public/admin)
+  src/lib/           prisma, auth, errors, slug, serializers, plans, rateLimit
+  src/routes/        health, auth, panel, public, edit (admin Faz 8)
 web/                 Next.js 15 App Router + Tailwind
-  src/app/           sales, auth, panel, admin, public card (Faz 2+)
+  src/app/           sales, auth, panel, admin, public card (UI Faz 3+)
   src/components/    UI
   src/lib/           cn, api helpers
 docs/                PLAN, API, KABUL, DESIGN
@@ -89,12 +89,14 @@ Gerçek ödeme, e-posta/SMS, print-on-demand, harita API'si, mobil uygulama, ço
 
 ## Ajanı nasıl sürdüm
 
-Bu bölüm Faz 7/10'da gerçek müdahalelerle doldurulacak. Şimdilik kayıt:
+Bu bölüm Faz 7/10'da son haline gelecek. Şimdilik kayıt:
 
 - B2B modeli (aile ücretsiz, cenaze evi öder) ürün sahibi tarafından seçildi.
 - İsim “CenazeKart” yerine “TaziyeKart” olarak belirlendi.
 - Süperadmin, tam auth ve taziye defteri kapsama alındı; 60 dakika sınırı kaldırıldı.
 - Teknoloji hattı Next.js 15 + Express 4 + Prisma 6 + SQLite olarak sabitlendi.
+- Faz 2'de testler iki kritik hatayı yakaladı: panel router'da önce `requireAuth` eksikti; plan limit helper'ı `MONTHLY: null` değerini `?? 0` ile 0'a çeviriyordu. İkisi de testlerle düzeltildi.
+- Auth/panel/public/edit sözleşmeleri `docs/API.md` ile hizalandı; test DB'si her koşuda reset + seed ediliyor.
 
 ## Lisans / not
 

@@ -8,7 +8,7 @@ export default function PanelPage() {
     <PageShell
       eyebrow="Cenaze evi paneli"
       title="Panel"
-      description="Dashboard, kart oluşturma, taziye defteri moderasyonu ve plan yönetimi Faz 3'te gelecek. Şu an iskelet ve API hazır."
+      description="Dashboard, kart oluşturma, taziye defteri moderasyonu ve plan yönetimi Faz 3'te gelecek. Auth ve API hazır."
     >
       <div className="flex flex-wrap gap-3">
         <Link href="/admin" className={cn(buttonVariants({ variant: 'outline' }))}>
