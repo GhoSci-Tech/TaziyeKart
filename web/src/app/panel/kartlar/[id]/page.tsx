@@ -127,14 +127,15 @@ export default function CardDetailPage() {
               )}
               {card.published ? 'Yayından kaldır' : 'Yayınla'}
             </Button>
-            <Button
-              variant="outline"
-              disabled
-              title="Yazdırma görünümü Faz 5'te eklenecek"
+            <Link
+              href={`/k/${card.slug}/yazdir`}
+              target="_blank"
+              rel="noreferrer"
+              className={cn(buttonVariants({ variant: 'outline' }))}
             >
               <Printer className="h-4 w-4" />
-              Yazdır (Faz 5)
-            </Button>
+              Yazdır / QR
+            </Link>
             <Button
               className="bg-red-700 text-white hover:bg-red-800"
               onClick={() => setConfirmOpen(true)}

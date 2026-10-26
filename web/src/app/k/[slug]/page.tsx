@@ -230,7 +230,11 @@ export default async function PublicCardPage({ params }: PageProps) {
           ) : null}
 
           <div className="mt-8 print-hidden">
-            <PublicActions title={fullTitle} publicPath={`/k/${card.slug}`} />
+            <PublicActions
+              title={fullTitle}
+              publicPath={`/k/${card.slug}`}
+              printPath={`/k/${card.slug}/yazdir`}
+            />
           </div>
 
           <p className="mt-4 text-[11px] text-muted print-hidden">

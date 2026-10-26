@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import { Copy, MessageCircle, Printer } from 'lucide-react';
 import { toast } from 'sonner';
 import { Button, buttonVariants } from '@/components/ui/button';
@@ -9,9 +10,10 @@ import { cn } from '@/lib/cn';
 type PublicActionsProps = {
   title: string;
   publicPath: string;
+  printPath?: string;
 };
 
-export function PublicActions({ title, publicPath }: PublicActionsProps) {
+export function PublicActions({ title, publicPath, printPath }: PublicActionsProps) {
   const [origin, setOrigin] = useState('');
 
   useEffect(() => {
@@ -45,10 +47,20 @@ export function PublicActions({ title, publicPath }: PublicActionsProps) {
         <Copy className="h-4 w-4" />
         Linki kopyala
       </Button>
-      <Button variant="outline" size="sm" onClick={() => window.print()}>
-        <Printer className="h-4 w-4" />
-        Yazdır
-      </Button>
+      {printPath ? (
+        <Link
+          href={printPath}
+          className={cn(buttonVariants({ variant: 'outline', size: 'sm' }))}
+        >
+          <Printer className="h-4 w-4" />
+          Yazdır / QR
+        </Link>
+      ) : (
+        <Button variant="outline" size="sm" onClick={() => window.print()}>
+          <Printer className="h-4 w-4" />
+          Yazdır
+        </Button>
+      )}
     </div>
   );
 }

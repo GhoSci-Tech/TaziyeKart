@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
-import { Check, ExternalLink, MessageSquare, Trash2, X } from 'lucide-react';
+import { Check, ExternalLink, Printer, Trash2, X } from 'lucide-react';
 import { toast } from 'sonner';
 import { ApiError } from '@/lib/api';
 import {
@@ -211,7 +211,15 @@ export default function FamilyEditPage() {
                 Public linki dilediğiniz gibi paylaşın; düzenleme linkini yalnızca siz kullanın.
               </p>
             </div>
-            <MessageSquare className="h-5 w-5 text-gold" />
+            <Link
+              href={`/k/${card.slug}/yazdir`}
+              target="_blank"
+              rel="noreferrer"
+              className={cn(buttonVariants({ variant: 'outline', size: 'sm' }))}
+            >
+              <Printer className="h-3.5 w-3.5" />
+              Yazdır / QR
+            </Link>
           </div>
           <div className="mt-4">
             <ShareLinks

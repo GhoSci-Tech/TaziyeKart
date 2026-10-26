@@ -42,9 +42,4 @@ body {
     border: 0 !important;
     box-shadow: none !important;
   }
-
-  @page {
-    size: A4;
-    margin: 14mm;
-  }
 }
