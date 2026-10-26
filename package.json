@@ -1,0 +1,30 @@
+{
+  "name": "taziyekart",
+  "version": "1.0.0",
+  "private": true,
+  "description": "TaziyeKart — cenaze evleri için beyaz etiket dijital taziye kartı",
+  "workspaces": [
+    "api",
+    "web"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "npm run db:setup && concurrently -k -n api,web -c cyan,magenta \"npm run dev -w api\" \"npm run dev -w web\"",
+    "dev:api": "npm run dev -w api",
+    "dev:web": "npm run dev -w web",
+    "start": "concurrently -k -n api,web -c cyan,magenta \"npm run start -w api\" \"npm run start -w web\"",
+    "build": "npm run build -w api && npm run build -w web",
+    "typecheck": "npm run typecheck -w api && npm run typecheck -w web",
+    "test": "npm run test -w api",
+    "db:generate": "npm run db:generate -w api",
+    "db:setup": "npm run db:setup -w api",
+    "db:push": "npm run db:push -w api",
+    "db:seed": "npm run db:seed -w api",
+    "db:reset": "npm run db:reset -w api"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0"
+  }
+}
