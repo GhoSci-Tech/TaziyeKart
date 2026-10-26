@@ -1,0 +1,78 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                  String       @id @default(cuid())
+  email               String       @unique
+  passwordHash        String
+  name                String
+  role                String       // SUPERADMIN | FUNERAL_HOME
+  funeralHomeId       String?
+  funeralHome         FuneralHome? @relation(fields: [funeralHomeId], references: [id], onDelete: SetNull)
+  approvedCondolences Condolence[] @relation("ApprovedCondolences")
+  createdAt           DateTime     @default(now())
+  updatedAt           DateTime     @updatedAt
+
+  @@index([funeralHomeId])
+}
+
+model FuneralHome {
+  id        String   @id @default(cuid())
+  name      String
+  phone     String?
+  plan      String   @default("TRIAL") // TRIAL | SINGLE | MONTHLY
+  status    String   @default("ACTIVE") // ACTIVE | SUSPENDED
+  users     User[]
+  cards     Card[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Card {
+  id                String       @id @default(cuid())
+  funeralHomeId     String
+  funeralHome       FuneralHome  @relation(fields: [funeralHomeId], references: [id], onDelete: Cascade)
+  slug              String       @unique
+  editToken         String       @unique
+  deceasedName      String
+  honorific         String?
+  funeralPlace      String
+  funeralAddress    String?
+  funeralMapUrl     String?
+  funeralDate       String // YYYY-MM-DD
+  funeralTime       String // HH:mm
+  cemeteryName      String?
+  burialTime        String?
+  condolenceAddress String?
+  condolenceHours   String?
+  donationUrl       String?
+  donationIban      String?
+  note              String?
+  published         Boolean      @default(true)
+  condolences       Condolence[]
+  createdAt         DateTime     @default(now())
+  updatedAt         DateTime     @updatedAt
+
+  @@index([funeralHomeId, createdAt])
+}
+
+model Condolence {
+  id               String   @id @default(cuid())
+  cardId           String
+  card             Card     @relation(fields: [cardId], references: [id], onDelete: Cascade)
+  name             String
+  message          String
+  status           String   @default("PENDING") // PENDING | APPROVED | REJECTED
+  approvedAt       DateTime?
+  approvedByUserId String?
+  approvedBy       User?    @relation("ApprovedCondolences", fields: [approvedByUserId], references: [id], onDelete: SetNull)
+  createdAt        DateTime @default(now())
+
+  @@index([cardId, status, createdAt])
+}
