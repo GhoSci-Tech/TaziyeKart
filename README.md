@@ -9,7 +9,7 @@ Cenaze evleri için beyaz etiket dijital taziye kartı. Aileye tek bir saygın l
 
 ## Durum
 
-Faz 0-2: dokümanlar, workspace iskeleti, Prisma şeması, seed, gerçek auth (register/login/logout/me/demo), panel/public/edit API'leri, zod doğrulama, plan limitleri ve 15 test. Panel/public UI Faz 3-4'te.
+Faz 0-3: dokümanlar, workspace iskeleti, Prisma şeması, seed, gerçek auth, panel/public/edit API'leri, zod doğrulama, plan limitleri, 15 API testi ve cenaze evi panel UI (giriş/kayıt/demo, dashboard, kart oluşturma/düzenleme, marka, taziye moderasyonu, plan). Public kart UI Faz 4'te.
 
 ## Hızlı başlangıç
 
@@ -25,6 +25,33 @@ npm run dev
 
 > `npm run dev` her başlangıçta `db:setup` çalıştırır. Seed idempotenttir; admin ve demo cenaze evini oluşturur, kart oluşturmaz.
 
+## Siteyi açma
+
+Geliştirme modu:
+
+1. PowerShell aç ve proje klasörüne gir:
+   ```powershell
+   cd "C:\Users\ENES\Desktop\Çalışma\AI Kursu Ödevler\proje_yarışma_satılabilir"
+   ```
+2. Başlat:
+   ```powershell
+   npm run dev
+   ```
+3. Tarayıcıda **http://localhost:3000** aç.
+4. Giriş ekranında **“Demo cenaze eviyle gir”** butonunu kullan veya `demo@taziyekart.local / Demo123!` ile giriş yap.
+5. Durdurmak için terminalde `Ctrl+C`.
+
+İlk kurulumda `npm install` ve `npm run db:setup` bir kez çalışır; `npm run dev` zaten `db:setup` adımını içerir.
+
+Production preview (isteğe bağlı):
+
+```powershell
+npm run build
+npm start
+```
+
+> Public kart rotası `/k/[slug]` **Faz 4**'te eklenecek. O zamana kadar paneldeki public link 404 döner; panel, auth ve tüm veri akışları çalışır durumdadır.
+
 ## Demo hesaplar
 
 `api/.env` içindeki değerler:
@@ -34,7 +61,7 @@ npm run dev
 | Superadmin | `admin@taziyekart.local` | `Admin123!` |
 | Cenaze evi | `demo@taziyekart.local` | `Demo123!` |
 
-Gerçek üründe bu değerleri değiştir. Demo giriş API'si yalnızca `DEMO_MODE=true` iken çalışır; giriş formu Faz 3'te bağlanacak.
+Gerçek üründe bu değerleri değiştir. Demo giriş API'si yalnızca `DEMO_MODE=true` iken çalışır; giriş formu ve panel hazır.
 
 ## Komutlar
 
@@ -42,6 +69,7 @@ Gerçek üründe bu değerleri değiştir. Demo giriş API'si yalnızca `DEMO_MO
 npm run dev          # api :3002 + web :3000
 npm run typecheck
 npm run build
+npm start            # build sonrası production preview (api + web)
 npm run test         # API testleri (15 test; test DB'sini sıfırlar ve seed eder)
 npm run db:generate
 npm run db:setup
@@ -60,9 +88,9 @@ api/                 Express 4 + Prisma 6 + SQLite + zod
   src/lib/           prisma, auth, errors, slug, serializers, plans, rateLimit
   src/routes/        health, auth, panel, public, edit (admin Faz 8)
 web/                 Next.js 15 App Router + Tailwind
-  src/app/           sales, auth, panel, admin, public card (UI Faz 3+)
-  src/components/    UI
-  src/lib/           cn, api helpers
+  src/app/           sales, auth, panel (Faz 3), admin, public card (Faz 4)
+  src/components/    UI, panel shell, card form/preview, share links
+  src/lib/           api, session, schemas, panel API, format
 docs/                PLAN, API, KABUL, DESIGN
 ```
 
@@ -97,6 +125,9 @@ Bu bölüm Faz 7/10'da son haline gelecek. Şimdilik kayıt:
 - Teknoloji hattı Next.js 15 + Express 4 + Prisma 6 + SQLite olarak sabitlendi.
 - Faz 2'de testler iki kritik hatayı yakaladı: panel router'da önce `requireAuth` eksikti; plan limit helper'ı `MONTHLY: null` değerini `?? 0` ile 0'a çeviriyordu. İkisi de testlerle düzeltildi.
 - Auth/panel/public/edit sözleşmeleri `docs/API.md` ile hizalandı; test DB'si her koşuda reset + seed ediliyor.
+- Faz 3 panel UI Chrome + Playwright ile uçtan uca test edildi: demo giriş, kart oluşturma, public/edit linkleri, kart düzenleme, taziye mesajı gönderme/onaylama, marka, plan ve silme.
+- QA sırasında plan sayfasındaki “Mevcut plan” metni iki yerde geçtiği için test locator'ı çakıştı; ürün değil, test düzeltildi. “Önerilen” rozet kontrastı, IBAN placeholder'ı ve toast konumu UI incelemesinde iyileştirildi.
+- Public kart rotası henüz yok; panele public link eklendiği için Faz 4'te `/k/[slug]` tamamlanana kadar bu link 404 dönecek. README'de açıkça not edildi.
 
 ## Lisans / not
 
