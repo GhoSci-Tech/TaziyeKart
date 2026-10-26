@@ -3,6 +3,7 @@ import type { ReactNode } from 'react';
 import '@fontsource-variable/manrope';
 import '@fontsource-variable/newsreader';
 import './globals.css';
+import { Providers } from '@/components/providers';
 
 export const metadata: Metadata = {
   title: 'TaziyeKart — Bir link, herkes zamanında',
@@ -17,7 +18,9 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
   return (
     <html lang="tr">
-      <body className="min-h-screen bg-cream font-sans text-ink antialiased">{children}</body>
+      <body className="min-h-screen bg-cream font-sans text-ink antialiased">
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }
