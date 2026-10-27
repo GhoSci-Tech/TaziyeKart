@@ -68,6 +68,7 @@ npm run db:reset      # destructive: reset SQLite and re-seed
 /admin/cenaze-evleri      funeral homes
 /admin/kartlar            all cards
 /admin/mesajlar           all messages
+/admin/denetim            admin audit log
 /k/[slug]                 public card
 /k/[slug]/yazdir          A6 print-ready card
 /duzenle/[editToken]      family edit link
@@ -80,8 +81,12 @@ npm run db:reset      # destructive: reset SQLite and re-seed
 - `Card.published = false` means the public route must not expose content.
 - Condolence messages are `PENDING` by default. Only `APPROVED` messages appear publicly. The family edit link, the funeral home panel and the superadmin may moderate.
 - Rate-limit public card creation and condolence submissions. Keep the implementation boring and in-memory for the demo.
-- Public and edit pages must be `noindex`. `robots.ts` must disallow `/k/`, `/duzenle/`, `/panel/`, `/admin/` and `/api/`.
+- Public, edit, auth, panel and admin pages must be `noindex`. `robots.ts` must disallow `/k/`, `/duzenle/`, `/panel/`, `/admin/` and `/api/`.
 - Do not put real personal data in seeds, screenshots or demo content. Use clearly fictional sample data.
+- State-changing browser requests must pass the `WEB_ORIGIN` origin guard; do not add CORS.
+- Keep the security headers in `web/next.config.ts`: `X-Frame-Options: DENY`, `nosniff`, `Referrer-Policy`, `Permissions-Policy`, COOP and restricted CSP.
+- Admin actions must write to `AuditLog`. Never store passwords, tokens or IBANs in audit meta.
+- Passwords are bcrypt hashes; JWT is HTTP-only; never expose tokens or hashes in serializers or logs.
 
 ## Engineering rules
 

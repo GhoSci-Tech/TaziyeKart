@@ -101,6 +101,7 @@ model User {
   funeralHomeId String?
   funeralHome   FuneralHome? @relation(fields: [funeralHomeId], references: [id], onDelete: SetNull)
   approvedCondolences Condolence[] @relation("ApprovedCondolences")
+  auditLogs           AuditLog[]   @relation("AuditActor")
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
@@ -164,6 +165,17 @@ model Condolence {
 ```
 
 Public serializers never return `editToken`, `funeralHomeId`, user data or workspace secrets.
+
+**Audit:** `AuditLog` (`actorUserId?`, `action`, `entity`, `entityId?`, `meta` JSON string, `createdAt`) records admin logins and admin actions. It never stores passwords, tokens or IBANs. The superadmin reads it from `/admin/denetim` via `GET /admin/audit`.
+
+## 6.1 Security hardening
+
+- HTTP-only JWT cookie, bcrypt passwords, role checks, tenant isolation.
+- `WEB_ORIGIN` origin guard for state-changing browser requests; no CORS; Next rewrite keeps cookies first-party.
+- Security headers: `X-Frame-Options: DENY`, `nosniff`, `Referrer-Policy`, `Permissions-Policy`, COOP, restricted CSP.
+- `noindex` on auth, panel, admin, public card and edit pages; `robots.txt` disallows sensitive paths.
+- Rate limits on auth/demo/card creation/condolence; zod validation; generic login errors.
+- `npm audit --omit=dev` currently reports 6 production advisories in transitive/build-time dependencies. Fixes require major upgrades (Prisma 7, Next 16, zod 4). This local demo has no runtime exposure path; production hardening must upgrade and re-test.
 
 ## 7. API surface
 

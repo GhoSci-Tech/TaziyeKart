@@ -9,7 +9,7 @@ Cenaze evleri için beyaz etiket dijital taziye kartı. Aileye tek bir saygın l
 
 ## Durum
 
-Faz 0-8: dokümanlar, workspace iskeleti, Prisma şeması, seed, gerçek auth, panel/public/edit API'leri, zod doğrulama, plan limitleri, 18 API testi, cenaze evi panel UI, public taziye kartı (OG/WhatsApp, yol tarifi, takvim, taziye defteri, aile düzenleme), A6 QR'lı yazdırma, tam satış sayfası, 90 saniyelik pitch + sessiz test ve superadmin paneli. Giriş, kayıt ve admin girişinde şifre göster/gizle vardır.
+Faz 0-9: dokümanlar, workspace iskeleti, Prisma şeması, seed, gerçek auth, panel/public/edit API'leri, zod doğrulama, plan limitleri, 19 API testi, cenaze evi panel UI, public taziye kartı (OG/WhatsApp, yol tarifi, takvim, taziye defteri, aile düzenleme), A6 QR'lı yazdırma, tam satış sayfası, 90 saniyelik pitch + sessiz test, superadmin paneli, audit log ve güvenlik sertleştirmesi. Giriş, kayıt ve admin girişinde şifre göster/gizle vardır. Faz 10'da deploy ve final sunum var.
 
 ## Hızlı başlangıç
 
@@ -85,7 +85,7 @@ npm run dev          # api :3002 + web :3000
 npm run typecheck
 npm run build
 npm start            # build sonrası production preview (api + web)
-npm run test         # API testleri (18 test; test DB'sini sıfırlar ve seed eder)
+npm run test         # API testleri (19 test; test DB'sini sıfırlar ve seed eder)
 npm run db:generate
 npm run db:setup
 npm run db:seed
@@ -100,10 +100,10 @@ api/                 Express 4 + Prisma 6 + SQLite + zod
   prisma/seed.ts
   src/app.ts         test edilebilir Express app
   src/index.ts       :3002 listener
-  src/lib/           prisma, auth, errors, slug, serializers, plans, rateLimit
+  src/lib/           prisma, auth, errors, slug, serializers, plans, rateLimit, audit, origin
   src/routes/        health, auth, panel, public, edit, admin
 web/                 Next.js 15 App Router + Tailwind
-  src/app/           sales, auth, panel, public card + family edit + A6 print, admin
+  src/app/           sales, auth, panel, public card + family edit + A6 print, admin + denetim
   src/components/    UI, panel, public, admin, marketing/demo CTA, password input
   src/lib/           api, session, schemas, panel/public/family/admin API, format
   public/            ekran-public.png, ekran-panel.png (gerçek ürün ekran görüntüleri)
@@ -133,6 +133,17 @@ docs/                PLAN, API, KABUL, DESIGN, PITCH, SESSIZ_TEST
 
 Gerçek ödeme, e-posta/SMS, print-on-demand, harita API'si, mobil uygulama, çoklu dil, fotoğraf yükleme, analytics, AI özellikleri. Ayrıntı: `docs/PLAN.md` → YAPMAYACAKLARIM.
 
+## Güvenlik
+
+- Auth: bcrypt + HTTP-only JWT cookie; SameSite=Lax; production'da Secure; roller `SUPERADMIN` / `FUNERAL_HOME`; tenant izolasyonu.
+- State-changing istekler `WEB_ORIGIN` ile sınırlıdır; CORS yoktur; Next rewrite cookie'yi first-party tutar.
+- Güvenlik başlıkları: `X-Frame-Options: DENY`, `X-Content-Type-Options`, `Referrer-Policy`, `Permissions-Policy`, COOP ve dar CSP.
+- `/panel`, `/admin`, `/k`, `/duzenle`, `/giris`, `/kayit` noindex; `robots.txt` hassas yolları kapatır.
+- Admin işlemleri `AuditLog`'a yazılır: giriş, plan/durum, kart yayın/sil, mesaj onay/red/sil. Parola, token veya IBAN kaydedilmez.
+- Rate limit: auth, demo, kart oluşturma ve taziye mesajı; zod doğrulama; login'de generic hata.
+- Sırlar `.env` / `.env.local`; `.env.example` ve `.gitignore` güncel.
+- `npm audit --omit=dev`: 6 üretim uyarısı (Prisma CLI `deepmerge-ts`, Next `postcss`, zod 3). Düzeltmeler major sürüm (Prisma 7 / Next 16 / zod 4); bu yerel demoda runtime'da açık yol yok. Üretim sertleştirmesinde major upgrade planlanmalı.
+
 ## Ajanı nasıl sürdüm
 
 Bu bölüm Faz 7/10'da son haline gelecek. Şimdilik kayıt:
@@ -155,6 +166,8 @@ Bu bölüm Faz 7/10'da son haline gelecek. Şimdilik kayıt:
 - Sessiz test: boş panel → kart → public → taziye onayı → print → aile düzenleme → 404 akışı Playwright/API ile doğrulandı; `docs/SESSIZ_TEST.md`'de jüri adımları ve bilinen sınırlar var. S2 işaretli; S1 için 90 saniye sesli prova gerekiyor.
 - Faz 8 superadmin: rol korumalı admin API (stats, cenaze evleri, kartlar, taziye mesajları, plan/askıya alma) ve admin UI (dashboard, cenaze evi detayı, kartlar, mesajlar). 18 API testi; admin E2E Chrome/Playwright.
 - Giriş, kayıt ve admin girişinde şifre alanı başlangıçta gizli; açık göz/üstü çizili göz butonuyla göster/gizle. Playwright’ta üç sayfada password → text → password doğrulandı.
+- Faz 9 güvenlik: `AuditLog` modeli ve `GET /admin/audit`; admin girişi/plan/kart/mesaj işlemleri kaydediliyor. `WEB_ORIGIN` origin guard, güvenlik başlıkları, auth sayfalarında noindex. Playwright’ta DENY/nosniff/CSP başlıkları, noindex ve origin korumalı demo giriş doğrulandı.
+- `npm audit --omit=dev` 6 üretim uyarısı verdi; düzeltmeler major (Prisma 7/Next 16/zod 4). Yerel demo için runtime açığı yok; üretim öncesi upgrade notu README Güvenlik bölümünde.
 
 ## Lisans / not
 

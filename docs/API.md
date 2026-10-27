@@ -453,6 +453,30 @@ Request: `{ "status": "APPROVED" | "REJECTED" }`. Response `200`: updated messag
 
 Deletes a message. Response `204`.
 
+### `GET /admin/audit`
+
+Query: `limit?` (default 100, max 200). Requires `SUPERADMIN`.
+
+```json
+{
+  "logs": [
+    {
+      "id": "audit_...",
+      "action": "HOME_UPDATE",
+      "entity": "funeral_home",
+      "entityId": "home_...",
+      "meta": { "plan": "MONTHLY", "status": "ACTIVE" },
+      "actor": { "id": "usr_...", "name": "Süper Admin", "email": "admin@taziyekart.local" },
+      "createdAt": "2026-10-27T20:00:00.000Z"
+    }
+  ]
+}
+```
+
+Actions: `ADMIN_LOGIN`, `HOME_UPDATE`, `CARD_PUBLISH`, `CARD_UNPUBLISH`, `CARD_DELETE`, `MESSAGE_APPROVE`, `MESSAGE_REJECT`, `MESSAGE_DELETE`.
+
+Audit meta never contains passwords, tokens or IBANs.
+
 ---
 
 ## Validation rules (shared)
@@ -477,6 +501,9 @@ Deletes a message. Response `204`.
 - Do not log request bodies containing passwords, tokens or IBANs.
 - Use generic login errors.
 - Rate-limit auth and public writes.
-- Public and edit pages must be `noindex`.
+- Public and edit pages must be `noindex`. Auth, panel and admin pages are also `noindex`; `robots.txt` disallows sensitive paths.
+- State-changing browser requests are limited to `WEB_ORIGIN`; CORS is disabled and the Next rewrite keeps the cookie first-party.
+- Security headers (`X-Frame-Options`, `nosniff`, `Referrer-Policy`, `Permissions-Policy`, COOP, restricted CSP) live in `web/next.config.ts`.
+- Admin actions write an `AuditLog` row; never store passwords, tokens or IBANs in audit meta.
 - The family edit token is a capability; if it leaks, the card can be edited. The panel can regenerate it in a later version (not in the MVP).
 - The superadmin demo endpoint must be disabled in production (`DEMO_MODE=false`).
