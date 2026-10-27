@@ -9,7 +9,7 @@ Cenaze evleri için beyaz etiket dijital taziye kartı. Aileye tek bir saygın l
 
 ## Durum
 
-Faz 0-5: dokümanlar, workspace iskeleti, Prisma şeması, seed, gerçek auth, panel/public/edit API'leri, zod doğrulama, plan limitleri, 15 API testi, cenaze evi panel UI, public taziye kartı (OG/WhatsApp, yol tarifi, takvim, taziye defteri, aile düzenleme) ve A6 QR'lı yazdırma. Satış sayfası Faz 6'da.
+Faz 0-6: dokümanlar, workspace iskeleti, Prisma şeması, seed, gerçek auth, panel/public/edit API'leri, zod doğrulama, plan limitleri, 15 API testi, cenaze evi panel UI, public taziye kartı (OG/WhatsApp, yol tarifi, takvim, taziye defteri, aile düzenleme), A6 QR'lı yazdırma ve tam satış sayfası (problem → çözüm → 3 fayda → fiyatlandırma → 6 SSS → gerçek ekran görüntüleri). 90 saniyelik pitch Faz 7'de.
 
 ## Hızlı başlangıç
 
@@ -96,9 +96,10 @@ api/                 Express 4 + Prisma 6 + SQLite + zod
   src/lib/           prisma, auth, errors, slug, serializers, plans, rateLimit
   src/routes/        health, auth, panel, public, edit (admin Faz 8)
 web/                 Next.js 15 App Router + Tailwind
-  src/app/           sales, auth, panel, public card + family edit + A6 print (Faz 4-5), admin
-  src/components/    UI, panel, public card/actions/condolence/print
+  src/app/           sales (Faz 6), auth, panel, public card + family edit + A6 print (Faz 4-5), admin
+  src/components/    UI, panel, public, marketing/demo CTA
   src/lib/           api, session, schemas, panel/public/family API, format
+  public/            ekran-public.png, ekran-panel.png (gerçek ürün ekran görüntüleri)
 docs/                PLAN, API, KABUL, DESIGN
 ```
 
@@ -139,6 +140,8 @@ Bu bölüm Faz 7/10'da son haline gelecek. Şimdilik kayıt:
 - Public kart sunucu-rendered; `generateMetadata`/`opengraph-image`; `robots.ts` + `noindex`. Aile düzenleme oturum istemez, gizli token ile çalışır.
 - C2 kalıcılık ayrıca test edildi: kart oluşturuldu, dev sunucusu kapatılıp yeniden açıldı, kart public API'de duruyordu; ardından silindi.
 - Faz 5 A6 ön/arka yazdırma + QR Chrome/Playwright ile test edildi: yazdır sayfası 200, QR data URL üretildi, 2 A6 sheet göründü; public/panel/aile yazdırma linkleri bağlandı. QR, `NEXT_PUBLIC_SITE_URL` üzerinden public karta gider.
+- Faz 6 tam satış sayfası Chrome/Playwright ile test edildi: başlık/OG, 2 gerçek ürün görseli, 6 SSS, 4 demo CTA ve tek tık demo → panel akışı. Satış sayfasında teknoloji jargonu yok; fayda odaklı metin.
+- Satış sayfası görselleri örnek isimli demo verisiyle üretildi (`ekran-public.png`, `ekran-panel.png`); dev göstergesi kapatıldı, örnek kart test sonrası silindi.
 
 ## Lisans / not
 

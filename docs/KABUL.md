@@ -4,14 +4,14 @@
 
 ## A · Ürün fikri ve problem netliği — 20 puan
 
-- [ ] **U1 (6 p)** Tek cümlede anlaşılan gerçek bir problem var; ürün o problemi çözmek için var.
-  - Plan: "Bir yakınını kaybettiğinde aile yüzlerce kez aynı adresi/saati anlatır; TaziyeKart tek saygın linkte toplar." Sales page hero + pitch.
-- [ ] **U2 (6 p)** Çözüm problemi gerçekten çözüyor; kullanıcı işini daha az adımda yapıyor.
-  - Plan: cenaze evi tek form doldurur; aile tek link paylaşır; ziyaretçi tek tıkla yol tarifi alır. WhatsApp'ta onlarca mesaj yerine bir link.
-- [ ] **U3 (4 p)** Hedef kitle somut ve dar.
-  - Plan: tek şubeli yerel cenaze evleri; "herkes" değil. Aile son kullanıcı, ödeyen cenaze evi.
-- [ ] **U4 (4 p)** "Bugün neden bu ürün" sorusuna bir cümlelik cevap var.
-  - Plan: her cenazede tekrar eden telefon/WhatsApp kaosu; mevcut alternatif kağıt/WhatsApp; fark tek güncel link + QR + marka.
+- [x] **U1 (6 p)** Tek cümlede anlaşılan gerçek bir problem var; ürün o problemi çözmek için var.
+  - Sales page hero + problem: "Her cenazede aynı 40 telefonu bitirin"; aile adres tarif etmek yerine tek link paylaşır.
+- [x] **U2 (6 p)** Çözüm problemi gerçekten çözüyor; kullanıcı işini daha az adımda yapıyor.
+  - Cenaze evi tek form doldurur; aile tek link paylaşır; ziyaretçi tek tıkla yol tarifi/takvim/QR alır. Public + aile düzenleme + panel aynı veriyi kullanır.
+- [x] **U3 (4 p)** Hedef kitle somut ve dar.
+  - Sales page "Kimler için": tek şubeli yerel cenaze evleri, ayda 10-20 cenaze. Aile son kullanıcı, ödeyen cenaze evi.
+- [x] **U4 (4 p)** "Bugün neden bu ürün" sorusuna bir cümlelik cevap var.
+  - Sales page problem bölümü: WhatsApp/telefon kaosu ve kaybolan mesajlar; fark tek güncel link + yol tarifi + QR + marka.
 
 ## B · Çalışan ürün — sessiz testte ölçülür — 25 puan
 
@@ -39,14 +39,14 @@
 
 ## D · Pazarlama — odak noktası — 20 puan
 
-- [ ] **P1 (6 p)** Satış sayfası akışı: tek cümle değer → problem → çözüm → 3 fayda → net CTA.
-  - Plan: hero, problem, 3 adım, faydalar, CTA. Faz 6.
-- [ ] **P2 (6 p)** Fiyatlandırma tablosu: en az 2 paket, net fiyat, içerik, biri önerilen.
-  - Plan: Tek Kart 350 TL / Cenaze Evi 1.500 TL/ay (önerilen); "Aileler için ücretsiz" bandı. Faz 6.
-- [ ] **P3 (4 p)** Güven unsuru: en az 3 gerçek itiraza SSS + ekran görüntüsü/demo.
-  - Plan: "Aile gerçekten ücretsiz mi?", "WhatsApp'tan farkı?", "Veriler nerede?", "Ödeme?"; gerçek panel/public ekran görüntüsü. Faz 6-7.
-- [ ] **P4 (4 p)** Metin müşteri dilinde; fayda yazıyor, özellik/jargon değil.
-  - Plan: "Her cenazede aynı 40 telefonu bitirin", "Aile acısını yaşasın"; teknoloji yok. Faz 6.
+- [x] **P1 (6 p)** Satış sayfası akışı: tek cümle değer → problem → çözüm → 3 fayda → net CTA.
+  - `/`: hero değer önerisi → problem (WhatsApp kaosu) → 3 adım → 3 fayda → ürün görselleri → fiyat → SSS → final CTA. Demo CTA tek tıkla panele gider.
+- [x] **P2 (6 p)** Fiyatlandırma tablosu: en az 2 paket, net fiyat, içerik, biri önerilen.
+  - Tek Kart 350 TL (tek seferlik) ve Cenaze Evi 1.500 TL/ay (önerilen); her pakette özellik listesi; "Aileler için 0 TL" bandı.
+- [x] **P3 (4 p)** Güven unsuru: en az 3 gerçek itiraza SSS + ekran görüntüsü/demo.
+  - 6 SSS (ücretsiz mi, WhatsApp farkı, veri güvenliği, yazdırma, kart/kullanıcı, iptal); `ekran-public.png` ve `ekran-panel.png` gerçek ürün görselleri.
+- [x] **P4 (4 p)** Metin müşteri dilinde; fayda yazıyor, özellik/jargon değil.
+  - "Telefon trafiği biter", "Aile acısını yaşasın; organizasyonu siz taşıyın", "Her cenazede aynı saygın deneyim"; satış sayfasında teknoloji adı yok.
 
 ## E · Pitch — 90 saniye — 10 puan
 
@@ -60,7 +60,7 @@
 - [x] **K1 (2 p)** `docs/PLAN.md` (YAPMAYACAKLARIM dahil) ve `AGENTS.md` var.
   - İkisi de Faz 0'da oluşturuldu ve fazlarla birlikte güncel tutuldu.
 - [x] **K2 (1 p)** En az 5 anlamlı commit.
-  - Faz 0-4 boyunca docs, scaffold, API, test, panel, public kart ve aile düzenleme commit'leri; 9+ anlamlı commit.
+  - Faz 0-6 boyunca docs, scaffold, API, test, panel, public kart, aile düzenleme, A6 print ve satış sayfası commit'leri; 11+ anlamlı commit.
 - [x] **K3 (2 p)** README: çalıştırma komutları + "ajanı nasıl sürdüm" bölümü.
   - README'de siteyi açma, public kart denemesi, komutlar ve gerçek ajan müdahaleleri (B2B modeli, isim, auth/plan hataları, panel/public QA) var.
 
