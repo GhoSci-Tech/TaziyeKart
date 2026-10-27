@@ -51,16 +51,16 @@
 ## E · Pitch — 90 saniye — 10 puan
 
 - [ ] **S1 (5 p)** 90 saniyede problem, çözüm, hedef kitle, fiyat; süre aşılmıyor.
-  - Plan: 0-15 problem, 15-35 iki link/akış, 35-55 ürün+10 sn demo, 55-75 kime/kaça, 75-90 kapanış. Faz 7.
-- [ ] **S2 (5 p)** Sessiz test: jüri yardımsız kullanıyor; nereye basacağını anlıyor.
-  - Plan: tek tık demo giriş, boş durum CTA, açık etiketler, hata mesajları. Faz 7.
+  - `docs/PITCH.md`: 0:00 problem, 0:15 çözüm, 0:35 10 sn demo, 0:45 kime/kaça, 1:05 neden bugün, 1:20 kapanış. Teknoloji yok; 90 sn sesli prova sahibinde.
+- [x] **S2 (5 p)** Sessiz test: jüri yardımsız kullanıyor; nereye basacağını anlıyor.
+  - `docs/SESSIZ_TEST.md`: boş panel → kart → public → taziye onayı → A6 print → aile düzenleme → 404. Playwright/API ile doğrulandı; tek tık demo ve boş durum CTA var.
 
 ## F · Süreç kanıtı — 5 puan
 
 - [x] **K1 (2 p)** `docs/PLAN.md` (YAPMAYACAKLARIM dahil) ve `AGENTS.md` var.
   - İkisi de Faz 0'da oluşturuldu ve fazlarla birlikte güncel tutuldu.
 - [x] **K2 (1 p)** En az 5 anlamlı commit.
-  - Faz 0-6 boyunca docs, scaffold, API, test, panel, public kart, aile düzenleme, A6 print ve satış sayfası commit'leri; 11+ anlamlı commit.
+  - Faz 0-7 boyunca docs, scaffold, API, test, panel, public kart, aile düzenleme, A6 print, satış sayfası ve pitch/sessiz test commit'leri; 13+ anlamlı commit.
 - [x] **K3 (2 p)** README: çalıştırma komutları + "ajanı nasıl sürdüm" bölümü.
   - README'de siteyi açma, public kart denemesi, komutlar ve gerçek ajan müdahaleleri (B2B modeli, isim, auth/plan hataları, panel/public QA) var.
 

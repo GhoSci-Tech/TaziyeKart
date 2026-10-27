@@ -9,7 +9,7 @@ Cenaze evleri için beyaz etiket dijital taziye kartı. Aileye tek bir saygın l
 
 ## Durum
 
-Faz 0-6: dokümanlar, workspace iskeleti, Prisma şeması, seed, gerçek auth, panel/public/edit API'leri, zod doğrulama, plan limitleri, 15 API testi, cenaze evi panel UI, public taziye kartı (OG/WhatsApp, yol tarifi, takvim, taziye defteri, aile düzenleme), A6 QR'lı yazdırma ve tam satış sayfası (problem → çözüm → 3 fayda → fiyatlandırma → 6 SSS → gerçek ekran görüntüleri). 90 saniyelik pitch Faz 7'de.
+Faz 0-7: dokümanlar, workspace iskeleti, Prisma şeması, seed, gerçek auth, panel/public/edit API'leri, zod doğrulama, plan limitleri, 15 API testi, cenaze evi panel UI, public taziye kartı (OG/WhatsApp, yol tarifi, takvim, taziye defteri, aile düzenleme), A6 QR'lı yazdırma, tam satış sayfası ve 90 saniyelik pitch + sessiz test hazırlığı. Superadmin Faz 8'de.
 
 ## Hızlı başlangıç
 
@@ -109,6 +109,8 @@ docs/                PLAN, API, KABUL, DESIGN
 - [`docs/API.md`](docs/API.md) — endpoint sözleşmeleri
 - [`docs/KABUL.md`](docs/KABUL.md) — 22 maddelik rubrik kontrol listesi
 - [`docs/DESIGN.md`](docs/DESIGN.md) — palet, tipografi, sayfa yönleri
+- [`docs/PITCH.md`](docs/PITCH.md) — 90 saniyelik pitch, 10 sn demo ve zor sorular
+- [`docs/SESSIZ_TEST.md`](docs/SESSIZ_TEST.md) — jürinin 60 saniyelik sessiz testi
 
 ## Teknoloji gerekçeleri
 
@@ -142,6 +144,8 @@ Bu bölüm Faz 7/10'da son haline gelecek. Şimdilik kayıt:
 - Faz 5 A6 ön/arka yazdırma + QR Chrome/Playwright ile test edildi: yazdır sayfası 200, QR data URL üretildi, 2 A6 sheet göründü; public/panel/aile yazdırma linkleri bağlandı. QR, `NEXT_PUBLIC_SITE_URL` üzerinden public karta gider.
 - Faz 6 tam satış sayfası Chrome/Playwright ile test edildi: başlık/OG, 2 gerçek ürün görseli, 6 SSS, 4 demo CTA ve tek tık demo → panel akışı. Satış sayfasında teknoloji jargonu yok; fayda odaklı metin.
 - Satış sayfası görselleri örnek isimli demo verisiyle üretildi (`ekran-public.png`, `ekran-panel.png`); dev göstergesi kapatıldı, örnek kart test sonrası silindi.
+- Faz 7 pitch: 90 saniyelik metin, 10 saniyelik demo, 6 zor soru cevabı ve ayrı pitch hesabı hazırlığı `docs/PITCH.md`'de. Pitch'te teknoloji adı yok; kapanış “bir link, herkes zamanında.”
+- Sessiz test: boş panel → kart → public → taziye onayı → print → aile düzenleme → 404 akışı Playwright/API ile doğrulandı; `docs/SESSIZ_TEST.md`'de jüri adımları ve bilinen sınırlar var. S2 işaretli; S1 için 90 saniye sesli prova gerekiyor.
 
 ## Lisans / not
 
