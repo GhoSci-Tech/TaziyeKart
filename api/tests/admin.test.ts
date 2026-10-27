@@ -32,6 +32,12 @@ describe('superadmin', () => {
     expect(
       homes.body.homes.some((item: { name: string }) => item.name === 'Örnek Cenaze Evi'),
     ).toBe(true);
+
+    const audit = await admin.get('/api/admin/audit');
+    expect(audit.status).toBe(200);
+    expect(
+      audit.body.logs.some((log: { action: string }) => log.action === 'ADMIN_LOGIN'),
+    ).toBe(true);
   });
 
   it('rejects a funeral home from admin routes', async () => {
@@ -112,5 +118,37 @@ describe('superadmin', () => {
 
     const deleted = await admin.get(`/api/admin/cards?homeId=${homeId}`);
     expect(deleted.body.cards).toHaveLength(0);
+
+    const audit = await admin.get('/api/admin/audit');
+    const actions = audit.body.logs.map((log: { action: string }) => log.action);
+    expect(actions).toEqual(
+      expect.arrayContaining([
+        'ADMIN_LOGIN',
+        'HOME_UPDATE',
+        'CARD_UNPUBLISH',
+        'MESSAGE_APPROVE',
+        'MESSAGE_DELETE',
+        'CARD_DELETE',
+      ]),
+    );
+  });
+
+  it('rejects a state-changing request from a foreign origin', async () => {
+    const foreign = await request(app)
+      .post('/api/auth/login')
+      .set('Origin', 'https://evil.example')
+      .send({
+        email: process.env.ADMIN_EMAIL,
+        password: process.env.ADMIN_PASSWORD,
+      });
+
+    expect(foreign.status).toBe(403);
+    expect(foreign.body.error.code).toBe('FORBIDDEN');
+
+    const allowed = await request(app)
+      .post('/api/auth/logout')
+      .set('Origin', 'http://localhost:3000');
+
+    expect(allowed.status).toBe(204);
   });
 });

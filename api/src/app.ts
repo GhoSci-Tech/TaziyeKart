@@ -7,6 +7,7 @@ import { publicRouter } from './routes/public';
 import { editRouter } from './routes/edit';
 import { adminRouter } from './routes/admin';
 import { errorHandler, notFoundHandler } from './lib/errors';
+import { originGuard } from './lib/origin';
 
 export function createApp() {
   const app = express();
@@ -14,6 +15,7 @@ export function createApp() {
   app.disable('x-powered-by');
   app.use(express.json({ limit: '100kb' }));
   app.use(cookieParser());
+  app.use(originGuard);
 
   app.use('/api', healthRouter);
   app.use('/api/auth', authRouter);

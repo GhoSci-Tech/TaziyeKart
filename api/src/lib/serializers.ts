@@ -1,4 +1,4 @@
-import type { Card, Condolence, FuneralHome, User } from '@prisma/client';
+import type { AuditLog, Card, Condolence, FuneralHome, User } from '@prisma/client';
 
 type HomeContact = Pick<FuneralHome, 'name' | 'phone'>;
 type HomeSummary = Pick<FuneralHome, 'id' | 'name' | 'phone' | 'plan' | 'status'>;
@@ -234,5 +234,35 @@ export function toAdminMessage(message: AdminMessageInput) {
     message: message.message,
     status: message.status,
     createdAt: message.createdAt,
+  };
+}
+
+type AdminAuditInput = Pick<
+  AuditLog,
+  'id' | 'action' | 'entity' | 'entityId' | 'meta' | 'createdAt'
+> & {
+  actor: Pick<User, 'id' | 'name' | 'email'> | null;
+};
+
+export function toAdminAudit(log: AdminAuditInput) {
+  let meta: Record<string, unknown> | null = null;
+  if (log.meta) {
+    try {
+      meta = JSON.parse(log.meta) as Record<string, unknown>;
+    } catch {
+      meta = null;
+    }
+  }
+
+  return {
+    id: log.id,
+    action: log.action,
+    entity: log.entity,
+    entityId: log.entityId,
+    meta,
+    actor: log.actor
+      ? { id: log.actor.id, name: log.actor.name, email: log.actor.email }
+      : null,
+    createdAt: log.createdAt,
   };
 }

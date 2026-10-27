@@ -3,7 +3,8 @@ import type { Prisma } from '@prisma/client';
 import { prisma } from '../lib/prisma';
 import { requireAuth, requireRole } from '../lib/auth';
 import { AppError, asyncHandler } from '../lib/errors';
-import { toAdminCard, toAdminHome, toAdminMessage } from '../lib/serializers';
+import { recordAudit } from '../lib/audit';
+import { toAdminAudit, toAdminCard, toAdminHome, toAdminMessage } from '../lib/serializers';
 import { getPlanPrice } from '../lib/plans';
 import {
   adminCardUpdateSchema,
@@ -201,6 +202,14 @@ adminRouter.patch(
     });
     const pending = await pendingCount(home.id);
 
+    await recordAudit({
+      actorUserId: req.user!.id,
+      action: 'HOME_UPDATE',
+      entity: 'funeral_home',
+      entityId: home.id,
+      meta: { plan: home.plan, status: home.status },
+    });
+
     res.json({ home: toAdminHome({ ...home, pendingMessages: pending }) });
   }),
 );
@@ -256,6 +265,14 @@ adminRouter.patch(
       include: cardInclude,
     });
 
+    await recordAudit({
+      actorUserId: req.user!.id,
+      action: card.published ? 'CARD_PUBLISH' : 'CARD_UNPUBLISH',
+      entity: 'card',
+      entityId: card.id,
+      meta: { deceasedName: card.deceasedName, slug: card.slug },
+    });
+
     res.json({ card: toAdminCard(card) });
   }),
 );
@@ -265,14 +282,42 @@ adminRouter.delete(
   asyncHandler(async (req, res) => {
     const existing = await prisma.card.findUnique({
       where: { id: req.params.id },
-      select: { id: true },
+      select: { id: true, deceasedName: true, slug: true, funeralHomeId: true },
     });
     if (!existing) {
       throw new AppError(404, 'NOT_FOUND', 'Kart bulunamadı.');
     }
 
     await prisma.card.delete({ where: { id: existing.id } });
+    await recordAudit({
+      actorUserId: req.user!.id,
+      action: 'CARD_DELETE',
+      entity: 'card',
+      entityId: existing.id,
+      meta: {
+        deceasedName: existing.deceasedName,
+        slug: existing.slug,
+        funeralHomeId: existing.funeralHomeId,
+      },
+    });
+
     res.status(204).send();
+  }),
+);
+
+adminRouter.get(
+  '/audit',
+  asyncHandler(async (req, res) => {
+    const limit = Math.min(Math.max(Number(req.query.limit) || 100, 1), 200);
+    const logs = await prisma.auditLog.findMany({
+      orderBy: { createdAt: 'desc' },
+      take: limit,
+      include: {
+        actor: { select: { id: true, name: true, email: true } },
+      },
+    });
+
+    res.json({ logs: logs.map(toAdminAudit) });
   }),
 );
 
@@ -327,6 +372,18 @@ adminRouter.patch(
       include: messageInclude,
     });
 
+    await recordAudit({
+      actorUserId: req.user!.id,
+      action: approved ? 'MESSAGE_APPROVE' : 'MESSAGE_REJECT',
+      entity: 'condolence',
+      entityId: message.id,
+      meta: {
+        cardId: message.cardId,
+        cardName: message.card.deceasedName,
+        homeName: message.card.funeralHome.name,
+      },
+    });
+
     res.json({ message: toAdminMessage(message) });
   }),
 );
@@ -336,13 +393,21 @@ adminRouter.delete(
   asyncHandler(async (req, res) => {
     const existing = await prisma.condolence.findUnique({
       where: { id: req.params.id },
-      select: { id: true },
+      select: { id: true, cardId: true, name: true },
     });
     if (!existing) {
       throw new AppError(404, 'NOT_FOUND', 'Taziye mesajı bulunamadı.');
     }
 
     await prisma.condolence.delete({ where: { id: existing.id } });
+    await recordAudit({
+      actorUserId: req.user!.id,
+      action: 'MESSAGE_DELETE',
+      entity: 'condolence',
+      entityId: existing.id,
+      meta: { cardId: existing.cardId, name: existing.name },
+    });
+
     res.status(204).send();
   }),
 );

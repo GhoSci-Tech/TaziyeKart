@@ -11,6 +11,7 @@ import {
   type SessionUser,
 } from '../lib/auth';
 import { AppError, asyncHandler } from '../lib/errors';
+import { recordAudit } from '../lib/audit';
 import { toUser } from '../lib/serializers';
 import { loginSchema, registerSchema } from '../schemas';
 import { enforceRateLimit } from '../lib/rateLimit';
@@ -150,6 +151,15 @@ authRouter.post(
       throw new AppError(401, 'UNAUTHORIZED', 'E-posta veya şifre hatalı.');
     }
 
+    if (user.role === 'SUPERADMIN') {
+      await recordAudit({
+        actorUserId: user.id,
+        action: 'ADMIN_LOGIN',
+        entity: 'auth',
+        meta: { email: user.email },
+      });
+    }
+
     signAndRespond(res, user);
   }),
 );
@@ -187,6 +197,12 @@ authRouter.post(
     assertDemoMode();
     enforceRateLimit(`demo-admin:${req.ip}`, 10, 15 * 60 * 1000);
     const user = await loadDemoUser('ADMIN_EMAIL');
+    await recordAudit({
+      actorUserId: user.id,
+      action: 'ADMIN_LOGIN',
+      entity: 'auth',
+      meta: { email: user.email, demo: true },
+    });
     signAndRespond(res, user);
   }),
 );
