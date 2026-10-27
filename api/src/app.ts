@@ -5,6 +5,7 @@ import { authRouter } from './routes/auth';
 import { panelRouter } from './routes/panel';
 import { publicRouter } from './routes/public';
 import { editRouter } from './routes/edit';
+import { adminRouter } from './routes/admin';
 import { errorHandler, notFoundHandler } from './lib/errors';
 
 export function createApp() {
@@ -19,6 +20,7 @@ export function createApp() {
   app.use('/api/panel', panelRouter);
   app.use('/api/public', publicRouter);
   app.use('/api/edit', editRouter);
+  app.use('/api/admin', adminRouter);
 
   app.use(notFoundHandler);
   app.use(errorHandler);

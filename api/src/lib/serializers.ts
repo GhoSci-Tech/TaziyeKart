@@ -148,3 +148,91 @@ export function toEditCondolence(message: EditCondolence) {
     createdAt: message.createdAt,
   };
 }
+
+type AdminHomeInput = Pick<
+  FuneralHome,
+  'id' | 'name' | 'phone' | 'plan' | 'status' | 'createdAt'
+> & {
+  _count?: { cards: number; users: number };
+  pendingMessages?: number;
+};
+
+export function toAdminHome(home: AdminHomeInput) {
+  return {
+    id: home.id,
+    name: home.name,
+    phone: home.phone,
+    plan: home.plan,
+    status: home.status,
+    cardsCount: home._count?.cards ?? 0,
+    usersCount: home._count?.users ?? 0,
+    pendingMessages: home.pendingMessages ?? 0,
+    createdAt: home.createdAt,
+  };
+}
+
+type AdminCardInput = Pick<
+  Card,
+  | 'id'
+  | 'deceasedName'
+  | 'honorific'
+  | 'funeralDate'
+  | 'funeralTime'
+  | 'published'
+  | 'slug'
+  | 'createdAt'
+> & {
+  funeralHome: { id: string; name: string };
+  _count?: { condolences: number };
+};
+
+export function toAdminCard(card: AdminCardInput) {
+  return {
+    id: card.id,
+    deceasedName: card.deceasedName,
+    honorific: card.honorific,
+    funeralDate: card.funeralDate,
+    funeralTime: card.funeralTime,
+    published: card.published,
+    slug: card.slug,
+    publicPath: `/k/${card.slug}`,
+    home: {
+      id: card.funeralHome.id,
+      name: card.funeralHome.name,
+    },
+    pendingMessages: card._count?.condolences ?? 0,
+    createdAt: card.createdAt,
+  };
+}
+
+type AdminMessageInput = Pick<
+  Condolence,
+  'id' | 'cardId' | 'name' | 'message' | 'status' | 'createdAt'
+> & {
+  card: {
+    id: string;
+    deceasedName: string;
+    slug: string;
+    funeralHome: { id: string; name: string };
+  };
+};
+
+export function toAdminMessage(message: AdminMessageInput) {
+  return {
+    id: message.id,
+    cardId: message.cardId,
+    card: {
+      id: message.card.id,
+      deceasedName: message.card.deceasedName,
+      slug: message.card.slug,
+    },
+    home: {
+      id: message.card.funeralHome.id,
+      name: message.card.funeralHome.name,
+    },
+    name: message.name,
+    message: message.message,
+    status: message.status,
+    createdAt: message.createdAt,
+  };
+}
