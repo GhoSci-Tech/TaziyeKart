@@ -11,6 +11,7 @@ import { toast } from 'sonner';
 import { PageShell } from '@/components/page-shell';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { PasswordInput } from '@/components/ui/password-input';
 import { Label } from '@/components/ui/label';
 import { ApiError } from '@/lib/api';
 import { registerRequest } from '@/lib/auth-api';
@@ -132,9 +133,8 @@ export default function RegisterPage() {
 
         <div>
           <Label htmlFor="password">Şifre</Label>
-          <Input
+          <PasswordInput
             id="password"
-            type="password"
             autoComplete="new-password"
             placeholder="En az 8 karakter"
             {...register('password')}

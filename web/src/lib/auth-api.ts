@@ -29,6 +29,10 @@ export async function demoLoginRequest() {
   return clientApi<{ user: SessionUser }>('/auth/demo-home', { method: 'POST' });
 }
 
+export async function demoAdminRequest() {
+  return clientApi<{ user: SessionUser }>('/auth/demo-admin', { method: 'POST' });
+}
+
 export async function logoutRequest() {
   await clientApi<null>('/auth/logout', { method: 'POST' });
 }

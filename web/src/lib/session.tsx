@@ -18,7 +18,7 @@ type SessionContextValue = {
   isLoading: boolean;
   error: unknown;
   refetch: () => void;
-  logout: () => Promise<void>;
+  logout: (redirectTo?: string) => Promise<void>;
 };
 
 const SessionContext = createContext<SessionContextValue | null>(null);
@@ -43,14 +43,17 @@ export function SessionProvider({ children }: { children: ReactNode }) {
     enabled: typeof window !== 'undefined',
   });
 
-  const logout = useCallback(async () => {
-    try {
-      await logoutRequest();
-    } finally {
-      queryClient.clear();
-      router.replace('/giris');
-    }
-  }, [queryClient, router]);
+  const logout = useCallback(
+    async (redirectTo = '/giris') => {
+      try {
+        await logoutRequest();
+      } finally {
+        queryClient.clear();
+        router.replace(redirectTo);
+      }
+    },
+    [queryClient, router],
+  );
 
   const value = useMemo<SessionContextValue>(
     () => ({

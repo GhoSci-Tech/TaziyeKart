@@ -72,6 +72,14 @@ export function googleCalendarUrl({
   return `https://calendar.google.com/calendar/render?${params.toString()}`;
 }
 
+export function formatMoney(value: number): string {
+  return new Intl.NumberFormat('tr-TR', {
+    style: 'currency',
+    currency: 'TRY',
+    maximumFractionDigits: 0,
+  }).format(value);
+}
+
 export function planLimitLabel(limit: number | null): string {
   return limit === null ? 'Sınırsız' : `${limit} kart`;
 }

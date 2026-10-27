@@ -150,3 +150,62 @@ export type FamilyEditData = {
   card: FamilyCard;
   condolences: FamilyCondolence[];
 };
+
+export type AdminStats = {
+  homes: { total: number; active: number; suspended: number };
+  cards: { total: number; published: number; unpublished: number };
+  messages: { pending: number; approved: number; rejected: number };
+  demoMrrTry: number;
+};
+
+export type AdminHome = {
+  id: string;
+  name: string;
+  phone: string | null;
+  plan: Plan;
+  status: HomeStatus;
+  cardsCount: number;
+  usersCount: number;
+  pendingMessages: number;
+  createdAt: string;
+};
+
+export type AdminHomeUser = {
+  id: string;
+  name: string;
+  email: string;
+  role: UserRole;
+  createdAt: string;
+};
+
+export type AdminCard = {
+  id: string;
+  deceasedName: string;
+  honorific: string | null;
+  funeralDate: string;
+  funeralTime: string;
+  published: boolean;
+  slug: string;
+  publicPath: string;
+  home: { id: string; name: string };
+  pendingMessages: number;
+  createdAt: string;
+};
+
+export type AdminHomeDetail = {
+  home: AdminHome;
+  users: AdminHomeUser[];
+  cards: AdminCard[];
+  messageCounts: { pending: number; approved: number; rejected: number };
+};
+
+export type AdminMessage = {
+  id: string;
+  cardId: string;
+  card: { id: string; deceasedName: string; slug: string };
+  home: { id: string; name: string };
+  name: string;
+  message: string;
+  status: CondolenceStatus;
+  createdAt: string;
+};
