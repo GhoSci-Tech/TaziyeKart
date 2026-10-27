@@ -413,7 +413,7 @@ All routes require `SUPERADMIN`. Public serializers do not apply; admin response
 }
 ```
 
-`demoMrrTry` is computed from active homes' plan prices; it is not real revenue.
+`demoMrrTry` is computed from active homes' MONTHLY plan price; it is not real revenue.
 
 ### `GET /admin/homes`
 

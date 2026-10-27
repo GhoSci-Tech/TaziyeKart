@@ -9,7 +9,7 @@ Cenaze evleri için beyaz etiket dijital taziye kartı. Aileye tek bir saygın l
 
 ## Durum
 
-Faz 0-7: dokümanlar, workspace iskeleti, Prisma şeması, seed, gerçek auth, panel/public/edit API'leri, zod doğrulama, plan limitleri, 15 API testi, cenaze evi panel UI, public taziye kartı (OG/WhatsApp, yol tarifi, takvim, taziye defteri, aile düzenleme), A6 QR'lı yazdırma, tam satış sayfası ve 90 saniyelik pitch + sessiz test hazırlığı. Superadmin Faz 8'de.
+Faz 0-8: dokümanlar, workspace iskeleti, Prisma şeması, seed, gerçek auth, panel/public/edit API'leri, zod doğrulama, plan limitleri, 18 API testi, cenaze evi panel UI, public taziye kartı (OG/WhatsApp, yol tarifi, takvim, taziye defteri, aile düzenleme), A6 QR'lı yazdırma, tam satış sayfası, 90 saniyelik pitch + sessiz test ve superadmin paneli. Giriş, kayıt ve admin girişinde şifre göster/gizle vardır.
 
 ## Hızlı başlangıç
 
@@ -60,6 +60,13 @@ npm start
 
 Public sayfada yol tarifi, Google Takvim, WhatsApp paylaşımı, link kopyalama, yazdırma ve taziye defteri vardır. A6 QR baskı hazır: public kartta **Yazdır / QR** → A6 ön/arka → **Yazdır → PDF olarak kaydet**.
 
+### Admin paneli
+
+1. `http://localhost:3000/admin/giris` aç.
+2. **Demo admin olarak gir** veya `admin@taziyekart.local / Admin123!` ile giriş yap.
+3. Dashboard’dan cenaze evleri, kartlar, taziye mesajları ve plan/askıya alma işlemlerini yönet.
+4. Şifre alanındaki göz ikonu şifreyi gösterir/gizler; başlangıçta gizlidir. Aynı ikon giriş, kayıt ve admin girişinde vardır.
+
 ## Demo hesaplar
 
 `api/.env` içindeki değerler:
@@ -78,7 +85,7 @@ npm run dev          # api :3002 + web :3000
 npm run typecheck
 npm run build
 npm start            # build sonrası production preview (api + web)
-npm run test         # API testleri (15 test; test DB'sini sıfırlar ve seed eder)
+npm run test         # API testleri (18 test; test DB'sini sıfırlar ve seed eder)
 npm run db:generate
 npm run db:setup
 npm run db:seed
@@ -94,13 +101,13 @@ api/                 Express 4 + Prisma 6 + SQLite + zod
   src/app.ts         test edilebilir Express app
   src/index.ts       :3002 listener
   src/lib/           prisma, auth, errors, slug, serializers, plans, rateLimit
-  src/routes/        health, auth, panel, public, edit (admin Faz 8)
+  src/routes/        health, auth, panel, public, edit, admin
 web/                 Next.js 15 App Router + Tailwind
-  src/app/           sales (Faz 6), auth, panel, public card + family edit + A6 print (Faz 4-5), admin
-  src/components/    UI, panel, public, marketing/demo CTA
-  src/lib/           api, session, schemas, panel/public/family API, format
+  src/app/           sales, auth, panel, public card + family edit + A6 print, admin
+  src/components/    UI, panel, public, admin, marketing/demo CTA, password input
+  src/lib/           api, session, schemas, panel/public/family/admin API, format
   public/            ekran-public.png, ekran-panel.png (gerçek ürün ekran görüntüleri)
-docs/                PLAN, API, KABUL, DESIGN
+docs/                PLAN, API, KABUL, DESIGN, PITCH, SESSIZ_TEST
 ```
 
 ## Dokümanlar
@@ -146,6 +153,8 @@ Bu bölüm Faz 7/10'da son haline gelecek. Şimdilik kayıt:
 - Satış sayfası görselleri örnek isimli demo verisiyle üretildi (`ekran-public.png`, `ekran-panel.png`); dev göstergesi kapatıldı, örnek kart test sonrası silindi.
 - Faz 7 pitch: 90 saniyelik metin, 10 saniyelik demo, 6 zor soru cevabı ve ayrı pitch hesabı hazırlığı `docs/PITCH.md`'de. Pitch'te teknoloji adı yok; kapanış “bir link, herkes zamanında.”
 - Sessiz test: boş panel → kart → public → taziye onayı → print → aile düzenleme → 404 akışı Playwright/API ile doğrulandı; `docs/SESSIZ_TEST.md`'de jüri adımları ve bilinen sınırlar var. S2 işaretli; S1 için 90 saniye sesli prova gerekiyor.
+- Faz 8 superadmin: rol korumalı admin API (stats, cenaze evleri, kartlar, taziye mesajları, plan/askıya alma) ve admin UI (dashboard, cenaze evi detayı, kartlar, mesajlar). 18 API testi; admin E2E Chrome/Playwright.
+- Giriş, kayıt ve admin girişinde şifre alanı başlangıçta gizli; açık göz/üstü çizili göz butonuyla göster/gizle. Playwright’ta üç sayfada password → text → password doğrulandı.
 
 ## Lisans / not
 

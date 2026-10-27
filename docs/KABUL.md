@@ -60,7 +60,7 @@
 - [x] **K1 (2 p)** `docs/PLAN.md` (YAPMAYACAKLARIM dahil) ve `AGENTS.md` var.
   - İkisi de Faz 0'da oluşturuldu ve fazlarla birlikte güncel tutuldu.
 - [x] **K2 (1 p)** En az 5 anlamlı commit.
-  - Faz 0-7 boyunca docs, scaffold, API, test, panel, public kart, aile düzenleme, A6 print, satış sayfası ve pitch/sessiz test commit'leri; 13+ anlamlı commit.
+  - Faz 0-8 boyunca docs, scaffold, API, test, panel, public kart, aile düzenleme, A6 print, satış sayfası, pitch/sessiz test ve superadmin commit'leri; 14+ anlamlı commit.
 - [x] **K3 (2 p)** README: çalıştırma komutları + "ajanı nasıl sürdüm" bölümü.
   - README'de siteyi açma, public kart denemesi, komutlar ve gerçek ajan müdahaleleri (B2B modeli, isim, auth/plan hataları, panel/public QA) var.
 
@@ -75,7 +75,7 @@
 7. Edit linkini aç → saati değiştir → kaydet → public sayfayı yenile → güncel.
 8. Boş isim, geçersiz tarih, bozuk URL, çok uzun not dene → anlaşılır hata.
 9. Public sayfada taziye mesajı bırak → "onaya gönderildi" → panelde onayla → public sayfada görünür.
-10. Superadmin demo girişi → cenaze evini, kartı, mesajı gör → planı değiştir.
+10. Superadmin demo girişi → dashboard, cenaze evi, plan/askıya alma. (Faz 8 E2E doğrulandı.)
 11. API'yi kapat-aç → kart hâlâ duruyor.
 12. Karta "Yazdır / QR" → A6 ön/arka ve QR görünür. (Faz 5 E2E doğrulandı.)
 

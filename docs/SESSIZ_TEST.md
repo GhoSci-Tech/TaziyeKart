@@ -47,7 +47,9 @@ Bu akışlar Chrome + Playwright ve API testleriyle doğrulandı:
 - A6 yazdırma → 2 sayfa → QR data URL → PDF.
 - Satış sayfası → 2 ürün görseli → 6 SSS → 4 demo CTA → demo panel.
 - C2 kalıcılık: kart oluşturuldu, sunucu kapatılıp açıldı, kart durdu.
-- API testleri: `15` test; auth, plan limiti, public serializasyon, moderasyon, validation.
+- API testleri: `18` test; auth, plan limiti, public serializasyon, moderasyon, validation, superadmin rol/tenant.
+- Admin: demo admin girişi → dashboard → cenaze evleri → detay → plan/askıya alma; kartlar ve mesajlar.
+- Şifre göster/gizle: giriş, kayıt ve admin girişinde password → text → password.
 
 ## S2 kontrolü
 
@@ -62,7 +64,7 @@ Bu akışlar Chrome + Playwright ve API testleriyle doğrulandı:
 
 ## Bilinen sınırlar (dürüst not)
 
-- **Superadmin paneli** Faz 8’de; şu an `/admin` placeholder. Jüri ürün akışına odaklanmalı.
+- **Superadmin paneli** hazır: `/admin/giris` üzerinden demo admin veya seed edilen admin hesabıyla girilir.
 - Gerçek ödeme, e-posta/SMS, print-on-demand ve harita API’si kapsam dışı.
 - Public kartlar arama motorunda görünmez; link yalnızca paylaşılan kişilerce açılır.
 - Demo verisinde gerçek kişi adı kullanılmaz.
