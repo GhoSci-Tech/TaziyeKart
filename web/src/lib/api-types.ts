@@ -209,3 +209,13 @@ export type AdminMessage = {
   status: CondolenceStatus;
   createdAt: string;
 };
+
+export type AdminAudit = {
+  id: string;
+  action: string;
+  entity: string;
+  entityId: string | null;
+  meta: Record<string, unknown> | null;
+  actor: { id: string; name: string; email: string } | null;
+  createdAt: string;
+};

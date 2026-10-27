@@ -1,5 +1,6 @@
 import { clientApi } from './api';
 import type {
+  AdminAudit,
   AdminCard,
   AdminHome,
   AdminHomeDetail,
@@ -119,4 +120,10 @@ export async function moderateAdminMessage(
 
 export async function deleteAdminMessage(id: string) {
   await clientApi<null>(`/admin/messages/${encodeURIComponent(id)}`, { method: 'DELETE' });
+}
+
+export async function fetchAdminAudit(limit = 100) {
+  return clientApi<{ logs: AdminAudit[] }>(
+    withQuery('/admin/audit', { limit }),
+  );
 }

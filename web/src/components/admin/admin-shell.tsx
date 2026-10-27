@@ -6,6 +6,7 @@ import { useEffect, type ReactNode } from 'react';
 import {
   Building2,
   FileText,
+  History,
   LayoutDashboard,
   LogOut,
   MessageSquare,
@@ -22,6 +23,7 @@ const NAV_ITEMS = [
   { href: '/admin/cenaze-evleri', label: 'Cenaze Evleri', icon: Building2 },
   { href: '/admin/kartlar', label: 'Kartlar', icon: FileText },
   { href: '/admin/mesajlar', label: 'Taziye Mesajları', icon: MessageSquare },
+  { href: '/admin/denetim', label: 'Denetim', icon: History },
 ] as const;
 
 export function AdminShell({ children }: { children: ReactNode }) {
