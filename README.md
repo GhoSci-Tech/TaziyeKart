@@ -33,7 +33,7 @@ Geliştirme modu:
 
 1. PowerShell aç ve proje klasörüne gir:
    ```powershell
-   cd "C:\Users\ENES\Desktop\Çalışma\AI Kursu Ödevler\proje_yarışma_satılabilir"
+   cd "C:\Users\Sen\Desktop\örnek_Çalışma\örnek_AI Kursu Ödevler\örnek_proje_yarışma_satılabilir"
    ```
 2. Başlat:
    ```powershell
@@ -191,7 +191,7 @@ Gerçek ödeme, e-posta/SMS, print-on-demand, harita API'si, mobil uygulama, ço
 - Giriş, kayıt ve admin girişinde şifre alanı başlangıçta gizli; açık göz/üstü çizili göz butonuyla göster/gizle. Playwright’ta üç sayfada password → text → password doğrulandı.
 - Faz 9 güvenlik: `AuditLog` modeli ve `GET /admin/audit`; admin girişi/plan/kart/mesaj işlemleri kaydediliyor. `WEB_ORIGIN` origin guard, güvenlik başlıkları, auth sayfalarında noindex. Playwright’ta DENY/nosniff/CSP başlıkları, noindex ve origin korumalı demo giriş doğrulandı.
 - `npm audit --omit=dev` 6 üretim uyarısı verdi; düzeltmeler major (Prisma 7/Next 16/zod 4). Yerel demo için runtime açığı yok; üretim öncesi upgrade notu README Güvenlik bölümünde.
-- Faz 10: deploy rehberi yazıldı; admin dashboard ve audit ekran görüntüleri eklendi; README final hali ve public GitHub reposu hazırlandı. S1 için 90 saniyelik sesli prova hâlâ sunum sahibinde.
+- Faz 10: deploy rehberi yazıldı; admin dashboard ve audit ekran görüntüleri eklendi; README final hali ve public GitHub reposu hazırlandı.
 
 ## Lisans / not
 
