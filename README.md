@@ -4,12 +4,14 @@ Cenaze evleri için beyaz etiket dijital taziye kartı. Aileye tek bir saygın l
 
 **Aileler ödemez; cenaze evi öder.**
 
+**GitHub:** <https://github.com/GhoSci-Tech/TaziyeKart>
+
 - Tek Kart: 350 TL (tek seferlik)
 - Cenaze Evi: 1.500 TL/ay (sınırsız kart, kendi markası)
 
 ## Durum
 
-Faz 0-9: dokümanlar, workspace iskeleti, Prisma şeması, seed, gerçek auth, panel/public/edit API'leri, zod doğrulama, plan limitleri, 19 API testi, cenaze evi panel UI, public taziye kartı (OG/WhatsApp, yol tarifi, takvim, taziye defteri, aile düzenleme), A6 QR'lı yazdırma, tam satış sayfası, 90 saniyelik pitch + sessiz test, superadmin paneli, audit log ve güvenlik sertleştirmesi. Giriş, kayıt ve admin girişinde şifre göster/gizle vardır. Faz 10'da deploy ve final sunum var.
+Faz 0-10: dokümanlar, workspace iskeleti, Prisma şeması, seed, gerçek auth, panel/public/edit API'leri, zod doğrulama, plan limitleri, 19 API testi, cenaze evi panel UI, public taziye kartı (OG/WhatsApp, yol tarifi, takvim, taziye defteri, aile düzenleme), A6 QR'lı yazdırma, tam satış sayfası, 90 saniyelik pitch + sessiz test, superadmin paneli, audit log ve güvenlik sertleştirmesi. Giriş, kayıt ve admin girişinde şifre göster/gizle vardır. Faz 10'da deploy rehberi, dört gerçek ürün ekran görüntüsü ve public GitHub reposu tamamlandı.
 
 ## Hızlı başlangıç
 
@@ -50,6 +52,8 @@ npm run build
 npm start
 ```
 
+Canlı/uzak sunucu adımları: [`docs/DEPLOY.md`](docs/DEPLOY.md). Yarışma/jüri için local çalıştırma yeterlidir.
+
 ### Public kartı deneme
 
 1. Panelde bir taziye kartı oluştur.
@@ -77,6 +81,26 @@ Public sayfada yol tarifi, Google Takvim, WhatsApp paylaşımı, link kopyalama,
 | Cenaze evi | `demo@taziyekart.local` | `Demo123!` |
 
 Gerçek üründe bu değerleri değiştir. Demo giriş API'si yalnızca `DEMO_MODE=true` iken çalışır; giriş formu ve panel hazır.
+
+## Ekran görüntüleri
+
+Tüm görsellerdeki isimler ve bilgiler kurgusaldır.
+
+### Public taziye kartı
+
+![Public taziye kartı](web/public/ekran-public.png)
+
+### Cenaze evi paneli
+
+![Cenaze evi paneli](web/public/ekran-panel.png)
+
+### Superadmin paneli
+
+![Superadmin paneli](web/public/ekran-admin.png)
+
+### Denetim kaydı
+
+![Admin denetim kaydı](web/public/ekran-audit.png)
 
 ## Komutlar
 
@@ -106,8 +130,8 @@ web/                 Next.js 15 App Router + Tailwind
   src/app/           sales, auth, panel, public card + family edit + A6 print, admin + denetim
   src/components/    UI, panel, public, admin, marketing/demo CTA, password input
   src/lib/           api, session, schemas, panel/public/family/admin API, format
-  public/            ekran-public.png, ekran-panel.png (gerçek ürün ekran görüntüleri)
-docs/                PLAN, API, KABUL, DESIGN, PITCH, SESSIZ_TEST
+  public/            ekran-public.png, ekran-panel.png, ekran-admin.png, ekran-audit.png
+docs/                PLAN, API, KABUL, DESIGN, PITCH, SESSIZ_TEST, DEPLOY
 ```
 
 ## Dokümanlar
@@ -118,6 +142,7 @@ docs/                PLAN, API, KABUL, DESIGN, PITCH, SESSIZ_TEST
 - [`docs/DESIGN.md`](docs/DESIGN.md) — palet, tipografi, sayfa yönleri
 - [`docs/PITCH.md`](docs/PITCH.md) — 90 saniyelik pitch, 10 sn demo ve zor sorular
 - [`docs/SESSIZ_TEST.md`](docs/SESSIZ_TEST.md) — jürinin 60 saniyelik sessiz testi
+- [`docs/DEPLOY.md`](docs/DEPLOY.md) — local, tek sunucu ve Vercel + Render deploy adımları
 
 ## Teknoloji gerekçeleri
 
@@ -146,8 +171,6 @@ Gerçek ödeme, e-posta/SMS, print-on-demand, harita API'si, mobil uygulama, ço
 
 ## Ajanı nasıl sürdüm
 
-Bu bölüm Faz 7/10'da son haline gelecek. Şimdilik kayıt:
-
 - B2B modeli (aile ücretsiz, cenaze evi öder) ürün sahibi tarafından seçildi.
 - İsim “CenazeKart” yerine “TaziyeKart” olarak belirlendi.
 - Süperadmin, tam auth ve taziye defteri kapsama alındı; 60 dakika sınırı kaldırıldı.
@@ -168,7 +191,10 @@ Bu bölüm Faz 7/10'da son haline gelecek. Şimdilik kayıt:
 - Giriş, kayıt ve admin girişinde şifre alanı başlangıçta gizli; açık göz/üstü çizili göz butonuyla göster/gizle. Playwright’ta üç sayfada password → text → password doğrulandı.
 - Faz 9 güvenlik: `AuditLog` modeli ve `GET /admin/audit`; admin girişi/plan/kart/mesaj işlemleri kaydediliyor. `WEB_ORIGIN` origin guard, güvenlik başlıkları, auth sayfalarında noindex. Playwright’ta DENY/nosniff/CSP başlıkları, noindex ve origin korumalı demo giriş doğrulandı.
 - `npm audit --omit=dev` 6 üretim uyarısı verdi; düzeltmeler major (Prisma 7/Next 16/zod 4). Yerel demo için runtime açığı yok; üretim öncesi upgrade notu README Güvenlik bölümünde.
+- Faz 10: deploy rehberi yazıldı; admin dashboard ve audit ekran görüntüleri eklendi; README final hali ve public GitHub reposu hazırlandı. S1 için 90 saniyelik sesli prova hâlâ sunum sahibinde.
 
 ## Lisans / not
+
+Kaynak kod public GitHub reposunda; demo amaçlıdır, üretim garantisi verilmez.
 
 Yarışma demosu. Gerçek ödeme alınmaz. Public kartlarda gerçek kişisel veri kullanılmamalıdır.
